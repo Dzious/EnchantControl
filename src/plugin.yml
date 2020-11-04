@@ -1,0 +1,47 @@
+#####################################
+#    General Plugin Informations    #
+#####################################
+
+name: Template
+
+author: Dzious
+
+version: 1.0
+
+website:
+
+description: >
+    Template Plugin Description
+
+api-version: 1.16
+prefix: Template
+
+main: com.dzious.bukkit.template.Template
+depend: []
+softdepend: []
+
+
+######################################
+#    Commands Related Information    #
+######################################
+
+commands:
+    Template:
+        aliases: [template, tmplt, t]
+        description: Template command description
+        usage: Template command usage
+    Chat:
+        aliases: [templatechat, tchat, tc]
+        description:
+        usage: Chat command usage
+
+#########################################
+#    Permissions Related Information    #
+#########################################
+
+permissions:
+    template.admin:
+        description: User is able to use all staff-related commands
+        default: false
+        children:
+            template.children.*: true

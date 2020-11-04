@@ -1,0 +1,52 @@
+#############################
+#   General Configuration   #
+#############################
+
+# Debug : true/false
+# Will print StackTrace to your console if an error occurs
+# Will enventually print some messages in your console and/or chat of specified player(s)
+
+debug :
+    enable : false
+    player : Dzious
+
+# Language file that should be used
+language : en_us.yml
+
+
+
+#################################
+#   Data Saving Configuration   #
+#################################
+
+# How how data will be saved : available type are mysql or sqlite.
+# If an invalid save type is prompt, datas will be saved in sqlite
+database :
+    enable : false
+    type : sqlite
+    prefix : RolePlayEngine_
+
+    # mysql config if prompt type is set to mysql
+    mysql :
+        host : localhost
+        port : 3306
+        dbName : minecraft
+        user : root
+        password : ''
+
+
+
+############################
+#    Chat Configuration    #
+############################
+chat:
+    enable: true
+    # Channels that will be available
+    channels: [General, Staff]
+
+    # Channel in which players will be connected by default
+    player:
+        default: General
+    staff:
+        channel: Staff
+        connect_on_login: true
