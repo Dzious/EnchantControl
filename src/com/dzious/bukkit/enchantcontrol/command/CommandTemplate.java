@@ -1,17 +1,16 @@
-package com.dzious.bukkit.template.command;
+package com.dzious.bukkit.enchantcontrol.command;
 
-import com.dzious.bukkit.template.Template;
+import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 
 public class CommandTemplate implements CommandExecutor {
 
-    private Template plugin;
+    private EnchantControl plugin;
     private final String commandName = "Template";
 
-    public CommandTemplate(Template plugin) {
+    public CommandTemplate(EnchantControl plugin) {
         this.plugin = plugin;
     }
 

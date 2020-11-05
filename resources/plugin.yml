@@ -2,21 +2,21 @@
 #    General Plugin Informations    #
 #####################################
 
-name: Template
+name: EnchantControl
 
 author: Dzious
 
 version: 1.0
 
-website:
+website: github.com/Dzious
 
 description: >
     Template Plugin Description
 
 api-version: 1.16
-prefix: Template
+prefix: EnchantControl
 
-main: com.dzious.bukkit.template.Template
+main: com.dzious.bukkit.enchantcontrol.EnchantControl
 depend: []
 softdepend: []
 
@@ -28,12 +28,12 @@ softdepend: []
 commands:
     Template:
         aliases: [template, tmplt, t]
-        description: Template command description
+        description: EnchantControl command description
         usage: Template command usage
-    Chat:
-        aliases: [templatechat, tchat, tc]
+    EnchantControl:
+        aliases: [enchantcontrol]
         description:
-        usage: Chat command usage
+        usage: EnchantControl command usage
 
 #########################################
 #    Permissions Related Information    #

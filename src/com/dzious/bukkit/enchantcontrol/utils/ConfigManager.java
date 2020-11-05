@@ -1,14 +1,14 @@
-package com.dzious.bukkit.template.utils;
+package com.dzious.bukkit.enchantcontrol.utils;
 
-import com.dzious.bukkit.template.Template;
+import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.List;
+import java.util.*;
 
 public class ConfigManager {
     private FileConfiguration configFile = null;
 
-    public ConfigManager (Template plugin) {
+    public ConfigManager (EnchantControl plugin) {
         plugin.saveDefaultConfig();
         configFile = plugin.getConfig();
     }
@@ -31,6 +31,18 @@ public class ConfigManager {
 
     public List<String> getListFromPath(String path) {
         return (configFile.getStringList(path));
+    }
+
+
+    public Map<String, Integer> loadEnchantments() {
+        Map<String, Integer> map = new HashMap<>();
+        Set<String> enchantments = configFile.getConfigurationSection("enchantments").getKeys(false);
+
+        for (String enchantment : enchantments) {
+            Integer level  = getIntFromPath("enchantments." + enchantment);
+            map.put(enchantment, level);
+        }
+        return (map);
     }
 
     // ToDo Custom Config for language files + Getters for messages.

@@ -1,18 +1,18 @@
-package com.dzious.bukkit.template.utils;
+package com.dzious.bukkit.enchantcontrol.utils;
 
-import com.dzious.bukkit.template.Template;
+import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Logger;
 
 public class LogManager {
 
-    private Template plugin;
+    private EnchantControl plugin;
     private Logger logger;
     private boolean debugEnable = false;
     private String debugPlayer = null;
 
-    public LogManager(Template plugin, Logger logger, ConfigManager configManager) {
+    public LogManager(EnchantControl plugin, Logger logger, ConfigManager configManager) {
         this.plugin = plugin;
         this.logger = logger;
         if (configManager.doPathExist("debug.enable"))

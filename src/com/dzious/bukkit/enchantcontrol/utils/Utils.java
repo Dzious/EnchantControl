@@ -1,4 +1,4 @@
-package com.dzious.bukkit.template.utils;
+package com.dzious.bukkit.enchantcontrol.utils;
 
 public class Utils {
     private Utils() {}

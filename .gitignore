@@ -27,3 +27,4 @@ target/
 .local
 .vscode
 .idea
+*.iml

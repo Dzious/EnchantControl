@@ -1,0 +1,18 @@
+#############################
+#   General Configuration   #
+#############################
+
+# Debug : true/false
+# Will print StackTrace to your console if an error occurs
+# Will eventually print some messages in your console and/or chat of specified player(s)
+debug:
+    enable: true
+    player: Dzious
+
+# Language file that should be used
+language : en_us.yml
+
+enchantments:
+    mending: 0
+    infinity: 0
+    protection : 2

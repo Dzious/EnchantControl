@@ -1,6 +1,6 @@
-package com.dzious.bukkit.template.command;
+package com.dzious.bukkit.enchantcontrol.command;
 
-import com.dzious.bukkit.template.Template;
+import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -10,23 +10,21 @@ import java.util.List;
 
 public class CommandManager implements TabCompleter {
 
-    private Template plugin;
+    private EnchantControl plugin;
     private static final List<String> chatTabCompletes = Arrays.asList(
             "info",
-            "join",
-            "leave",
-            "talk"
+            "complete1",
+            "complete2"
     );
 
-    public CommandManager(Template plugin) {
+    public CommandManager(EnchantControl plugin) {
         this.plugin = plugin;
     }
 
     public void onEnable() {
         plugin.getLogManager().logInfo("CommandManager OnEnable");
         plugin.getCommand("Template").setExecutor(new CommandTemplate(plugin));
-        if (plugin.getConfigManager().doPathExist("chat.enable") == true && plugin.getConfigManager().getBooleanFromPath("chat.enable") == true)
-            plugin.getCommand("Chat").setExecutor(new CommandChat(plugin));
+        plugin.getCommand("EnchantControl").setExecutor(new CommandEnchantControl(plugin));
     }
 
     @Override
@@ -40,12 +38,10 @@ public class CommandManager implements TabCompleter {
                 switch (args[1].toLowerCase()) {
                     case "info":
                         return (null);
-                    case "join":
-                        return (plugin.getChannelManager().getAvailableChannels());
-                    case "leave":
-                        return (plugin.getChannelManager().getAvailableChannels());
-                    case "talk":
-                        return (plugin.getChannelManager().getAvailableChannels());
+                    case "complete1":
+                        return (null);
+                    case "complete2":
+                        return (null);
                     default:
                         return (null);
                 }
