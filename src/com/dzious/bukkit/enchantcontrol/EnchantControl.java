@@ -1,6 +1,7 @@
 package com.dzious.bukkit.enchantcontrol;
 
 import com.dzious.bukkit.enchantcontrol.command.CommandManager;
+import com.dzious.bukkit.enchantcontrol.listener.ListenerManager;
 import com.dzious.bukkit.enchantcontrol.utils.ConfigManager;
 import com.dzious.bukkit.enchantcontrol.utils.EnchantmentManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -15,6 +16,7 @@ public class EnchantControl extends JavaPlugin {
     private ConfigManager configManager;
     private CommandManager commandManager;
     private EnchantmentManager enchantmentManager;
+    private ListenerManager listenerManager;
 
     @Override
     public void onLoad() {
@@ -28,9 +30,11 @@ public class EnchantControl extends JavaPlugin {
         INSTANCE = this;
         configManager = new ConfigManager(this);
         logManager = new LogManager(INSTANCE, logger, configManager);
+        enchantmentManager = new EnchantmentManager(this);
         commandManager = new CommandManager(INSTANCE);
         commandManager.onEnable();
-        enchantmentManager = new EnchantmentManager(this);
+        listenerManager = new ListenerManager(INSTANCE);
+        listenerManager.onEnable();
         logManager.logInfo("Enchant Control started !");
         return;
     }

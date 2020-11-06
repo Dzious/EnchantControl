@@ -21,7 +21,7 @@ public class CommandEnchantControl implements CommandExecutor {
             return (false);
         for (String commandLabel : plugin.getCommand(commandName).getAliases())
             if (label.toLowerCase().equals(commandLabel.toLowerCase()) == true) {// && (sender instanceof ConsoleCommandSender || sender.hasPermission(plugin.getCommand(commandName).getPermission()))) {
-                plugin.getEnchantmentManager().removeEnchantment(((Player) sender).getInventory().getItemInMainHand());
+                plugin.getLogManager().logDebugPlayer("Command " + commandName + "executed.");
             }
         return (false);
     }
