@@ -45,8 +45,8 @@ public class EnchantmentManager {
     }
 
     public boolean hasEnchantActive(ItemStack item) {
-        for (Enchantment enchantment : Enchantment.values()) {
-            if (enchantment.canEnchantItem(item)) {
+        for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
+            if (enchantment.getKey().canEnchantItem(item)) {
                 if (enchantments.containsKey(enchantment) == false || enchantments.get(enchantment) > 0) {
                     return (true);
                 }
@@ -93,10 +93,15 @@ public class EnchantmentManager {
         if (validEnchantmentsList.size() == currentValidEnchantmentsList.size())
             return (null);
 
-        Enchantment newEnchantment = validEnchantmentsList.get((int) (Math.random() % validEnchantmentsList.size()));
-
-        while (currentValidEnchantmentsList.contains(newEnchantment))
-            newEnchantment = validEnchantmentsList.get((int) (Math.random() % validEnchantmentsList.size()));
+        int idx = (int) (Math.random() % validEnchantmentsList.size());
+        Enchantment newEnchantment = validEnchantmentsList.get(idx);
+        while (currentValidEnchantmentsList.contains(newEnchantment)) {
+            newEnchantment = validEnchantmentsList.get(idx);
+            idx = idx + 1;
+            if (idx == validEnchantmentsList.size()) {
+                idx = 0;
+            }
+        }
         return (newEnchantment);
     }
 }

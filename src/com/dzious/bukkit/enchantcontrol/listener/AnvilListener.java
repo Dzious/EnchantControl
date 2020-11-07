@@ -28,7 +28,6 @@ public class AnvilListener implements Listener {
             return;
         }
 
-
         plugin.getLogManager().logInfo("Type : " +  e.getResult().getType());
 
         if (e.getResult().getEnchantments().isEmpty() == false) {
@@ -59,6 +58,7 @@ public class AnvilListener implements Listener {
                     e.getResult().setItemMeta(meta);
                 }
             }
+            // ToDo Add changing no data book to simple book
             plugin.getLogManager().logInfo("Stored Enchantments : " +  ((EnchantmentStorageMeta)e.getResult().getItemMeta()).getStoredEnchants());
         }
     }
