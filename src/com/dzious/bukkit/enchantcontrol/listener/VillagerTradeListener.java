@@ -22,7 +22,7 @@ public class VillagerTradeListener implements Listener {
     @EventHandler
     public void onVillagerAcquireTrade(VillagerAcquireTradeEvent e)
     {
-        if (e.getRecipe().getResult().getEnchantments().isEmpty() == true && (e.getRecipe().getResult().getItemMeta() == null || ((EnchantmentStorageMeta)(e.getRecipe().getResult().getItemMeta())).getStoredEnchants().isEmpty() == true))
+        if (e.getRecipe().getResult().getEnchantments().isEmpty() == true && (e.getRecipe().getResult().getItemMeta() == null || (e.getRecipe().getResult().getItemMeta() instanceof EnchantmentStorageMeta) == false || ((EnchantmentStorageMeta)(e.getRecipe().getResult().getItemMeta())).hasStoredEnchants() == false))
             return;
 
         if (e.getRecipe().getResult().getEnchantments().isEmpty() == false) {

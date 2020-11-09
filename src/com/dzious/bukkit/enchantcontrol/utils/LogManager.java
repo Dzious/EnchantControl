@@ -1,6 +1,7 @@
 package com.dzious.bukkit.enchantcontrol.utils;
 
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Logger;
@@ -35,7 +36,7 @@ public class LogManager {
 
     public void logDebugConsole(String msg) {
         if (isDebugEnable() == true)
-            logger.info("[" + plugin.getName() + "] Debug : " + msg);
+            logger.info(ChatColor.BLUE + "[" + plugin.getName() + "] Debug : " + ChatColor.WHITE + msg);
     }
 
     public void logDebugPlayer(String msg) {

@@ -3,13 +3,16 @@ package com.dzious.bukkit.enchantcontrol.utils;
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.File;
 import java.util.*;
 
 public class ConfigManager {
     private FileConfiguration configFile = null;
 
     public ConfigManager (EnchantControl plugin) {
-        plugin.saveDefaultConfig();
+        File file = new File(plugin.getDataFolder(),  "config.yml");
+        if (file.exists() == false)
+            plugin.saveDefaultConfig();
         configFile = plugin.getConfig();
     }
 
@@ -34,12 +37,12 @@ public class ConfigManager {
     }
 
 
-    public Map<String, Integer> loadEnchantments() {
+    public Map<String, Integer> loadEnchantments(String path) {
         Map<String, Integer> map = new HashMap<>();
-        Set<String> enchantments = configFile.getConfigurationSection("enchantments").getKeys(false);
+        Set<String> enchantments = configFile.getConfigurationSection("enchantments." + path).getKeys(false);
 
         for (String enchantment : enchantments) {
-            Integer level  = getIntFromPath("enchantments." + enchantment);
+            Integer level  = getIntFromPath("enchantments." + path + "." + enchantment);
             map.put(enchantment, level);
         }
         return (map);

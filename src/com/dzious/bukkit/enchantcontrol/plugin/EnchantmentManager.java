@@ -1,11 +1,13 @@
-package com.dzious.bukkit.enchantcontrol.utils;
+package com.dzious.bukkit.enchantcontrol.plugin;
 
 import java.util.*;
 
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
+import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class EnchantmentManager {
 
@@ -15,21 +17,25 @@ public class EnchantmentManager {
 
     public EnchantmentManager(EnchantControl plugin) {
         this.plugin = plugin;
+
+
+
+
+    }
+
+
+    public void registerEnchantments(@NotNull String path, @NotNull Enchantment[] enchantmentList)
+    {
         Map<String, Integer> configEnchantments = new HashMap<String, Integer>();
 
-        plugin.getLogManager().logDebugConsole("Values : " + Enchantment.values().toString());
-
-        plugin.getLogManager().logDebugConsole(enchantments.toString());
-
-
-        if (this.plugin.getConfigManager().doPathExist("enchantments") == true) {
-            configEnchantments = this.plugin.getConfigManager().loadEnchantments();
+        if (this.plugin.getConfigManager().doPathExist("enchantments." + path) == true) {
+            configEnchantments = this.plugin.getConfigManager().loadEnchantments(path);
         }
-        for (Enchantment enchantment : Enchantment.values()) {
-            plugin.getLogManager().logDebugConsole("Currently processing : " + enchantment.getKey() + " it's level is " + enchantment.getMaxLevel());
-            enchantments.put(enchantment, enchantment.getMaxLevel()); //replace(enchantment.getKey(), config.getValue());
+        for (Enchantment enchantment : enchantmentList) {
+            plugin.getLogManager().logDebugConsole("Currently processing : " + ChatColor.GREEN + enchantment.getKey() + ChatColor.WHITE + ". It's level is " + ChatColor.RED + enchantment.getMaxLevel());
+            enchantments.put(enchantment, enchantment.getMaxLevel());
             for (Map.Entry<String, Integer> config : configEnchantments.entrySet()) {
-                if (config.getKey().equals(enchantment.getKey().toString().split(":")[1]) == true) {
+                if (enchantment.getKey().toString().equals(path + ":" + config.getKey()) == true) {
                     plugin.getLogManager().logDebugConsole("Replaced " + enchantment.getKey() + ". Old value was " + enchantment.getMaxLevel() + ", new value is " + config.getValue() + ".");
                     enchantments.replace(enchantment, config.getValue());
                     break;
@@ -38,6 +44,7 @@ public class EnchantmentManager {
         }
         plugin.getLogManager().logDebugConsole(enchantments.toString());
     }
+
 
     public Map<Enchantment, Integer> getAffectedEnchantments()
     {
@@ -83,12 +90,35 @@ public class EnchantmentManager {
         return (validEnchantments);
     }
 
+    public List<Enchantment> getValidEnchantments(List<Enchantment> validEnchantments, List<Enchantment> currents) {
+        List<Enchantment> newValidEnchantments = new ArrayList<>();
+        boolean conflict = false;
+
+        for (Enchantment enchantment : validEnchantments) {
+            conflict = false;
+            for (Enchantment current : currents) {
+                if (current.conflictsWith(enchantment)) {
+                    conflict = true;
+                    break;
+                }
+            }
+            if (conflict == false) {
+                newValidEnchantments.add(enchantment);
+            }
+        }
+        return (validEnchantments);
+    }
+
+
     public Enchantment rerollEnchantment(ItemStack item, List<Enchantment> currentEnchantments) {
 
         List<Enchantment> validEnchantmentsList = getValidEnchantments(item);
         List<Enchantment> currentValidEnchantmentsList = new ArrayList<>();
-        if (currentEnchantments != null)
+
+        if (currentEnchantments != null) {
             currentValidEnchantmentsList = getValidEnchantments(item, currentEnchantments);
+            validEnchantmentsList = getValidEnchantments(validEnchantmentsList, currentEnchantments);
+        }
 
         if (validEnchantmentsList.size() == currentValidEnchantmentsList.size())
             return (null);

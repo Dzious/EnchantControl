@@ -8,12 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 import java.util.Map;
 
 public class AnvilListener implements Listener {
-    private EnchantControl plugin;
+    private final EnchantControl plugin;
 
     public AnvilListener (EnchantControl plugin) {
         this.plugin = plugin;
@@ -24,7 +25,7 @@ public class AnvilListener implements Listener {
     @EventHandler
     public void onFusionPreparation(PrepareAnvilEvent e) {
 
-        if (e.getResult() == null || (e.getResult().getEnchantments().isEmpty() == true && (e.getResult().getItemMeta() == null || ((EnchantmentStorageMeta)e.getResult().getItemMeta()).getStoredEnchants().isEmpty() == true))) {
+        if (e.getResult() == null || (e.getResult().getEnchantments().isEmpty() == true && (e.getResult().getItemMeta() == null || (e.getResult().getItemMeta() instanceof EnchantmentStorageMeta) == false || ((EnchantmentStorageMeta)e.getResult().getItemMeta()).getStoredEnchants().isEmpty() == true))) {
             return;
         }
 
@@ -57,6 +58,9 @@ public class AnvilListener implements Listener {
                     meta.addStoredEnchant(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()), true); // TODO may have to reset item (e.setResult(ItemStack))
                     e.getResult().setItemMeta(meta);
                 }
+            }
+            if (e.getResult().getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)(e.getResult().getItemMeta())).getStoredEnchants().isEmpty() == true) {
+                e.setResult(new ItemStack(Material.BOOK));
             }
             // ToDo Add changing no data book to simple book
             plugin.getLogManager().logInfo("Stored Enchantments : " +  ((EnchantmentStorageMeta)e.getResult().getItemMeta()).getStoredEnchants());

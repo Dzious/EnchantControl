@@ -1,6 +1,7 @@
 package com.dzious.bukkit.enchantcontrol.listener;
 
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
@@ -18,18 +19,31 @@ import java.util.List;
 import java.util.Map;
 
 public class FishingListener implements Listener {
-    private EnchantControl plugin;
+    private final EnchantControl plugin;
 
     public FishingListener (EnchantControl plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
-    public void onEnchantmentPreparation(PlayerFishEvent e)
+    public void onPlayerFishTreasure(PlayerFishEvent e)
     {
-        if (e.getCaught() == null || e.getCaught() instanceof Item == false || (((Item)e.getCaught()).getItemStack().getEnchantments().isEmpty() == true && (((Item)e.getCaught()).getItemStack().getItemMeta() == null || ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta()).getStoredEnchants().isEmpty() == true))) {
+        if (e.getCaught() == null || (e.getCaught() instanceof Item) == false) {
+            if (e.getCaught() == null)
+                plugin.getLogManager().logDebugConsole("Nothing caught");
+            else
+                plugin.getLogManager().logDebugConsole("caught thing was not an enchantable item");
             return;
         }
+        Item item = (Item)(e.getCaught());
+
+
+        if (item.getItemStack().getEnchantments().isEmpty() == true && (item.getItemStack().getItemMeta() == null || (item.getItemStack().getItemMeta() instanceof EnchantmentStorageMeta) == false || ((EnchantmentStorageMeta)(item.getItemStack().getItemMeta())).getStoredEnchants().isEmpty() == true)) {
+            plugin.getLogManager().logDebugConsole("");
+            return;
+        }
+
+        plugin.getLogManager().logDebugConsole("Caught : " + ((Item)e.getCaught()).getItemStack());
 
         if (((Item)e.getCaught()).getItemStack().getEnchantments().isEmpty() == false) {
             List<Enchantment> enchantmentsList = new ArrayList<>();
@@ -53,15 +67,13 @@ public class FishingListener implements Listener {
                     ((Item)e.getCaught()).getItemStack().addEnchantment(enchantment.getKey(),plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
                 }
             }
-            // if (((Item)e.getCaught()).getItemStack().getEnchantments().isEmpty() == true)
-                // ((Item)e.getCaught()).setItemStack(new ItemStack(((Item) e.getCaught()).getItemStack().getType()));
         } else {
             List<Enchantment> enchantmentsList = new ArrayList<>();
-            for (Map.Entry<Enchantment, Integer> enchantment : ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta()).getStoredEnchants().entrySet()) {
+            for (Map.Entry<Enchantment, Integer> enchantment : ((EnchantmentStorageMeta)(((Item)(e.getCaught())).getItemStack().getItemMeta())).getStoredEnchants().entrySet()) {
                 enchantmentsList.add(enchantment.getKey());
             }
 
-            for (Map.Entry<Enchantment, Integer> enchantment : ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta()).getStoredEnchants().entrySet()) {
+            for (Map.Entry<Enchantment, Integer> enchantment : ((EnchantmentStorageMeta)(((Item)(e.getCaught())).getItemStack().getItemMeta())).getStoredEnchants().entrySet()) {
                 if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
                     EnchantmentStorageMeta meta = ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta());
                     Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(((Item)e.getCaught()).getItemStack(), enchantmentsList);

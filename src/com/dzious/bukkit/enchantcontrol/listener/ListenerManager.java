@@ -6,15 +6,20 @@ import com.dzious.bukkit.enchantcontrol.command.CommandTemplate;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Listener;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class ListenerManager {
-    private EnchantControl plugin;
+    private final EnchantControl plugin;
+    private boolean doMendingRepair = true;
 
     public ListenerManager(EnchantControl plugin) {
         this.plugin = plugin;
+        if (plugin.getConfigManager().doPathExist("Activate Mending Reparation"))
+            doMendingRepair = plugin.getConfigManager().getBooleanFromPath("Activate Mending Reparation");
     }
 
     public void onEnable() {
@@ -23,7 +28,14 @@ public class ListenerManager {
         plugin.getServer().getPluginManager().registerEvents(new EnchantmentTableListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new FishingListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new LootGenerationListener(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new PlayerEnchantmentListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new VillagerTradeListener(plugin), plugin);
+
+        if (plugin.getEnchantmentManager().getAffectedEnchantments().get(Enchantment.MENDING) < 1 && doMendingRepair == false)
+            plugin.getServer().getPluginManager().registerEvents(new MendingCancelerListener(), plugin);
+
+//        if (doMendingRepair == false)
+//            plugin.getServer().getPluginManager().registerEvents(new MendingCancelerListener(), plugin);
     }
 
 }

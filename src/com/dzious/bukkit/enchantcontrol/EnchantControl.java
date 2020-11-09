@@ -2,8 +2,9 @@ package com.dzious.bukkit.enchantcontrol;
 
 import com.dzious.bukkit.enchantcontrol.command.CommandManager;
 import com.dzious.bukkit.enchantcontrol.listener.ListenerManager;
+import com.dzious.bukkit.enchantcontrol.plugin.PlayersManager;
 import com.dzious.bukkit.enchantcontrol.utils.ConfigManager;
-import com.dzious.bukkit.enchantcontrol.utils.EnchantmentManager;
+import com.dzious.bukkit.enchantcontrol.plugin.EnchantmentManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.dzious.bukkit.enchantcontrol.utils.LogManager;
 
@@ -17,6 +18,8 @@ public class EnchantControl extends JavaPlugin {
     private CommandManager commandManager;
     private EnchantmentManager enchantmentManager;
     private ListenerManager listenerManager;
+    private PlayersManager playersManager;
+
 
     @Override
     public void onLoad() {
@@ -35,6 +38,7 @@ public class EnchantControl extends JavaPlugin {
         commandManager.onEnable();
         listenerManager = new ListenerManager(INSTANCE);
         listenerManager.onEnable();
+        playersManager = new PlayersManager();
         logManager.logInfo("Enchant Control started !");
         return;
     }
@@ -60,5 +64,7 @@ public class EnchantControl extends JavaPlugin {
     }
 
     public EnchantmentManager getEnchantmentManager() {return (enchantmentManager); }
+
+    public PlayersManager getPlayersManager() {return (playersManager);}
 
 }

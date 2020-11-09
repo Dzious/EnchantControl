@@ -28,7 +28,9 @@ public class LootGenerationListener implements Listener {
         if (e.getLoot().isEmpty() == true)
             return;
         for (ItemStack item : e.getLoot()) {
-            if (item.getEnchantments().isEmpty() == true && (item.getItemMeta() == null || ((EnchantmentStorageMeta)(item.getItemMeta())).getStoredEnchants().isEmpty() == true))
+            plugin.getLogManager().logDebugConsole(item.toString());
+            plugin.getLogManager().logDebugConsole("(item.getItemMeta() instanceof EnchantmentStorageMeta) == false : " + ((item.getItemMeta() instanceof EnchantmentStorageMeta) == false));
+            if (item.getEnchantments().isEmpty() == true && (item.getItemMeta() == null || (item.getItemMeta() instanceof EnchantmentStorageMeta) == false || ((EnchantmentStorageMeta)(item.getItemMeta())).hasStoredEnchants() == false))
                 continue;
 
             List<Enchantment> enchantmentsList = new ArrayList<>();
@@ -53,9 +55,6 @@ public class LootGenerationListener implements Listener {
                         item.addEnchantment(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
                     }
                 }
-//                if (item.getEnchantments().isEmpty() == true) {
-//                    e.getLoot().remove(item);
-//                  e.getLoot().add(new ItemStack(Material.BOOK));
             } else {
                 for (Map.Entry<Enchantment, Integer> enchantment :((EnchantmentStorageMeta)(item.getItemMeta())).getStoredEnchants().entrySet()) {
                     enchantmentsList.add(enchantment.getKey());
@@ -79,9 +78,11 @@ public class LootGenerationListener implements Listener {
                         meta.addStoredEnchant(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()), false);
                         item.setItemMeta(meta);
                     }
-                    if (item.getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)(item.getItemMeta())).getStoredEnchants().isEmpty() == true)
+                    if (item.getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)(item.getItemMeta())).getStoredEnchants().isEmpty() == true) {
                         e.getLoot().remove(item);
-//                  e.getLoot().add(new ItemStack(Material.BOOK));
+                        e.getLoot().add(new ItemStack(Material.BOOK));
+
+                    }
                 }
 
             }
