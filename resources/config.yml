@@ -14,10 +14,17 @@ debug:
 #   Enchantments Configuration   #
 ##################################
 
+# Enable or Disable the enchantments update in inventory
+# THIS MAY CAUSE A LOT OF UPDATES AND SO SOME LAGS.
+# SERVER THAT NEVER EVER HAD ENCHANTMENTS SHALL NOT ACTIVATE THIS
+update_inventory: false
+
 # Enable or Disable the abilty to repair your stuff using mending enchantment
 # Mending mending should be disable in order for this to work
 mending_repair: true
 
+# Enchantment that have to be controlled.
+# Enchantment that aren't there will be kept on their default values
 # enchantments.<sourceName>.<enchantmentName>: <maxLevel>
 # Source Name       is the origin of the enchantments.      Example : minecraft
 # Enchantment Name  is the name of the enchantments.        Example : protection
