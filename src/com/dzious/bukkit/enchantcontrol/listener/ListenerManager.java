@@ -18,8 +18,8 @@ public class ListenerManager {
 
     public ListenerManager(EnchantControl plugin) {
         this.plugin = plugin;
-        if (plugin.getConfigManager().doPathExist("Activate Mending Reparation"))
-            doMendingRepair = plugin.getConfigManager().getBooleanFromPath("Activate Mending Reparation");
+        if (plugin.getConfigManager().doPathExist("mending_repair"))
+            doMendingRepair = plugin.getConfigManager().getBooleanFromPath("mending_repair");
     }
 
     public void onEnable() {
