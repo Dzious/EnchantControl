@@ -1,6 +1,5 @@
 package com.dzious.bukkit.enchantcontrol.plugin;
 
-import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
 
@@ -10,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 public class EnchantmentPlayer {
-    private EnchantControl plugin;
-
     List<Map<Enchantment,EnchantmentOffer>> registeredOffers = new ArrayList<>();
 
     public void setOffers(EnchantmentOffer[] newOffers, List<Enchantment> oldOffers)

@@ -1,6 +1,7 @@
 package com.dzious.bukkit.enchantcontrol.listener;
 
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;

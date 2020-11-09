@@ -1,7 +1,5 @@
 package com.dzious.bukkit.enchantcontrol.plugin;
 
-import com.dzious.bukkit.enchantcontrol.EnchantControl;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

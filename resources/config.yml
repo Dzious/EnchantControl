@@ -23,6 +23,9 @@ update_inventory: false
 # Mending mending should be disable in order for this to work
 mending_repair: true
 
+# Enable or Disable the ability to go over minecradt vanilla enchantments level
+bypass_levels: false
+
 # Enchantment that have to be controlled.
 # Enchantment that aren't there will be kept on their default values
 # enchantments.<sourceName>.<enchantmentName>: <maxLevel>

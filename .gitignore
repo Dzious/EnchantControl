@@ -23,8 +23,13 @@
 hs_err_pid*
 
 # local folders
+.local/
 target/
-.local
-.vscode
-.idea
+
+.idea/
 *.iml
+
+.vscode/
+.settings/
+.classpath
+.project

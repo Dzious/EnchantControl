@@ -31,9 +31,9 @@ public class EnchantControl extends JavaPlugin {
         Logger logger = Logger.getLogger("Minecraft");
         logger.info("Enchant Control starting...");
         INSTANCE = this;
-        configManager = new ConfigManager(this);
+        configManager = new ConfigManager(INSTANCE);
         logManager = new LogManager(INSTANCE, logger, configManager);
-        enchantmentManager = new EnchantmentManager(this);
+        enchantmentManager = new EnchantmentManager(INSTANCE);
         commandManager = new CommandManager(INSTANCE);
         commandManager.onEnable();
         listenerManager = new ListenerManager(INSTANCE);

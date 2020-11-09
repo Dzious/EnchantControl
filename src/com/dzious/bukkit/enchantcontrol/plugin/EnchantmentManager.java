@@ -1,13 +1,12 @@
 package com.dzious.bukkit.enchantcontrol.plugin;
 
-import java.util.*;
-
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
 
 public class EnchantmentManager {
 
@@ -17,10 +16,7 @@ public class EnchantmentManager {
 
     public EnchantmentManager(EnchantControl plugin) {
         this.plugin = plugin;
-
-
-
-
+        registerEnchantments("minecraft", Enchantment.values());
     }
 
 
@@ -45,6 +41,25 @@ public class EnchantmentManager {
         plugin.getLogManager().logDebugConsole(enchantments.toString());
     }
 
+    public void reload()
+    {
+        plugin.getLogManager().logDebugConsole("Reloading enchantments");
+        
+        for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
+            plugin.getLogManager().logDebugConsole("Currently processing : " + ChatColor.GREEN + enchantment.getKey() + ChatColor.WHITE + ". It's level is " + ChatColor.RED + enchantment.getValue());
+            String[] enchantmentId = enchantment.toString().split(":");
+            if (plugin.getConfigManager().doPathExist("enchantment." + enchantmentId[0] + "." + enchantmentId[1])) {
+                int newLevel = plugin.getConfigManager().getIntFromPath("enchantment." + enchantmentId[0] + "." + enchantmentId[1]);
+                if (enchantment.getValue() != newLevel) {
+                    plugin.getLogManager().logDebugConsole("Replaced " + enchantment.getKey() + ". Old value was " + enchantment.getValue() + ", new value is " + newLevel + ".");
+                    enchantment.setValue(newLevel);
+                }
+            }
+        }
+
+        plugin.getLogManager().logDebugConsole("Enchantments Reloaded");
+    }
+
 
     public Map<Enchantment, Integer> getAffectedEnchantments()
     {
@@ -54,7 +69,7 @@ public class EnchantmentManager {
     public boolean hasEnchantActive(ItemStack item) {
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
             if (enchantment.getKey().canEnchantItem(item)) {
-                if (enchantments.containsKey(enchantment) == false || enchantments.get(enchantment) > 0) {
+                if (enchantments.containsKey(enchantment.getKey()) == false || enchantments.get(enchantment.getKey()) > 0) {
                     return (true);
                 }
             }

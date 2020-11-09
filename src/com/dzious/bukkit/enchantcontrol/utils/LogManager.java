@@ -1,6 +1,7 @@
 package com.dzious.bukkit.enchantcontrol.utils;
 
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
