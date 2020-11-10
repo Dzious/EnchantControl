@@ -24,17 +24,19 @@ public class LootGenerationListener implements Listener {
     @EventHandler
     public void onLootGeneration(LootGenerateEvent e)
     {
-        if (e.getLoot().isEmpty() == true)
+        if (e.getLoot().isEmpty())
             return;
         for (ItemStack item : e.getLoot()) {
             plugin.getLogManager().logDebugConsole(item.toString());
-            plugin.getLogManager().logDebugConsole("(item.getItemMeta() instanceof EnchantmentStorageMeta) == false : " + ((item.getItemMeta() instanceof EnchantmentStorageMeta) == false));
-            if (item.getEnchantments().isEmpty() == true && (item.getItemMeta() == null || (item.getItemMeta() instanceof EnchantmentStorageMeta) == false || ((EnchantmentStorageMeta)(item.getItemMeta())).hasStoredEnchants() == false))
+            if (item.getEnchantments().isEmpty() &&
+                (item.getItemMeta() == null ||
+                !(item.getItemMeta() instanceof EnchantmentStorageMeta) ||
+                !((EnchantmentStorageMeta)(item.getItemMeta())).hasStoredEnchants()))
                 continue;
 
             List<Enchantment> enchantmentsList = new ArrayList<>();
 
-            if (item.getEnchantments().isEmpty() == false) {
+            if (!item.getEnchantments().isEmpty()) {
                 for (Map.Entry<Enchantment, Integer> enchantment :item.getEnchantments().entrySet()) {
                     enchantmentsList.add(enchantment.getKey());
                 }
@@ -77,7 +79,7 @@ public class LootGenerationListener implements Listener {
                         meta.addStoredEnchant(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()), false);
                         item.setItemMeta(meta);
                     }
-                    if (item.getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)(item.getItemMeta())).getStoredEnchants().isEmpty() == true) {
+                    if (item.getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)(item.getItemMeta())).getStoredEnchants().isEmpty()) {
                         e.getLoot().remove(item);
                         e.getLoot().add(new ItemStack(Material.BOOK));
 

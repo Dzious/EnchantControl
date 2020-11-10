@@ -26,7 +26,7 @@ public class EnchantmentTableListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEnchantmentPreparation(PrepareItemEnchantEvent e)
     {
-        if (plugin.getEnchantmentManager().hasEnchantActive(e.getItem()) == false)
+        if (!plugin.getEnchantmentManager().hasEnchantActive(e.getItem()))
             return;
 
         plugin.getLogManager().logDebugConsole(ChatColor.BLUE + "Generating offers : ");

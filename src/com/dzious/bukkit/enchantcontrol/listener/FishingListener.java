@@ -25,24 +25,26 @@ public class FishingListener implements Listener {
     @EventHandler
     public void onPlayerFishTreasure(PlayerFishEvent e)
     {
-        if (e.getCaught() == null || (e.getCaught() instanceof Item) == false) {
+        if (e.getCaught() == null || !(e.getCaught() instanceof Item)) {
             if (e.getCaught() == null)
                 plugin.getLogManager().logDebugConsole("Nothing caught");
             else
                 plugin.getLogManager().logDebugConsole("caught thing was not an enchantable item");
             return;
         }
+
         Item item = (Item)(e.getCaught());
-
-
-        if (item.getItemStack().getEnchantments().isEmpty() == true && (item.getItemStack().getItemMeta() == null || (item.getItemStack().getItemMeta() instanceof EnchantmentStorageMeta) == false || ((EnchantmentStorageMeta)(item.getItemStack().getItemMeta())).getStoredEnchants().isEmpty() == true)) {
+        if (item.getItemStack().getEnchantments().isEmpty() &&
+            (item.getItemStack().getItemMeta() == null ||
+            !(item.getItemStack().getItemMeta() instanceof EnchantmentStorageMeta) ||
+            ((EnchantmentStorageMeta)(item.getItemStack().getItemMeta())).getStoredEnchants().isEmpty())) {
             plugin.getLogManager().logDebugConsole("");
             return;
         }
 
         plugin.getLogManager().logDebugConsole("Caught : " + ((Item)e.getCaught()).getItemStack());
 
-        if (((Item)e.getCaught()).getItemStack().getEnchantments().isEmpty() == false) {
+        if (!((Item)e.getCaught()).getItemStack().getEnchantments().isEmpty()) {
             List<Enchantment> enchantmentsList = new ArrayList<>();
             for (Map.Entry<Enchantment, Integer> enchantment : ((Item)e.getCaught()).getItemStack().getEnchantments().entrySet()) {
                 enchantmentsList.add(enchantment.getKey());
@@ -89,7 +91,8 @@ public class FishingListener implements Listener {
                     ((Item)e.getCaught()).getItemStack().setItemMeta(meta);
                 }
             }
-            if (((Item)e.getCaught()).getItemStack().getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta()).getStoredEnchants().isEmpty() == true)
+            if (((Item)e.getCaught()).getItemStack().getType() == Material.ENCHANTED_BOOK &&
+                ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta()).getStoredEnchants().isEmpty())
                 ((Item)e.getCaught()).setItemStack(new ItemStack(Material.BOOK));
         }
     }

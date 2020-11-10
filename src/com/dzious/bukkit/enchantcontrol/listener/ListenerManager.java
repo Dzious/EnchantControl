@@ -16,7 +16,7 @@ public class ListenerManager {
         this.plugin = plugin;
         initMap();
         for (Map.Entry<String, Boolean> listener : configurableListenersValues.entrySet())
-            if (plugin.getConfigManager().doPathExist(listener.getKey()) == true)
+            if (plugin.getConfigManager().doPathExist(listener.getKey()))
                 configurableListenersValues.replace(listener.getKey(), plugin.getConfigManager().getBooleanFromPath(listener.getKey()));
     }
 
@@ -35,10 +35,10 @@ public class ListenerManager {
         plugin.getServer().getPluginManager().registerEvents(new PlayerEnchantmentListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new VillagerTradeListener(plugin), plugin);
 
-        if (plugin.getEnchantmentManager().getAffectedEnchantments().get(Enchantment.MENDING) < 1 && configurableListenersValues.get("mending_repair") == false)
+        if (plugin.getEnchantmentManager().getAffectedEnchantments().get(Enchantment.MENDING) < 1 && !configurableListenersValues.get("mending_repair"))
             plugin.getServer().getPluginManager().registerEvents(new MendingCancelerListener(), plugin);
         
-       if (configurableListenersValues.get("update_inventory") == true)
+        if (configurableListenersValues.get("update_inventory"))
            plugin.getServer().getPluginManager().registerEvents(new InventoryListener(plugin), plugin); 
 
 //        if (doMendingRepair == false)

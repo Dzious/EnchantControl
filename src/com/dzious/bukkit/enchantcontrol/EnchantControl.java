@@ -66,5 +66,5 @@ public class EnchantControl extends JavaPlugin {
     public EnchantmentManager getEnchantmentManager() {return (enchantmentManager); }
 
     public PlayersManager getPlayersManager() {return (playersManager);}
-
+// TODO may have to reset item (e.setResult(ItemStack))
 }

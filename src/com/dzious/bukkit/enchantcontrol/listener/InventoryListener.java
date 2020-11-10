@@ -27,11 +27,14 @@ public class InventoryListener implements Listener {
         ItemStack[] items = e.getInventory().getContents();
 
         for (int i = 0; i < items.length; i++) {
-            if ((items[i].getEnchantments().isEmpty() == true && (items[i].getItemMeta() == null || (items[i].getItemMeta() instanceof EnchantmentStorageMeta) == false || ((EnchantmentStorageMeta)(items[i].getItemMeta())).getStoredEnchants().isEmpty() == true))) {
+            if ((items[i].getEnchantments().isEmpty() &&
+                (items[i].getItemMeta() == null ||
+                !(items[i].getItemMeta() instanceof EnchantmentStorageMeta) ||
+                ((EnchantmentStorageMeta)(items[i].getItemMeta())).getStoredEnchants().isEmpty()))) {
                 return;
             };
 
-            if (items[i].getEnchantments().isEmpty() == false) {
+            if (!items[i].getEnchantments().isEmpty()) {
                 plugin.getLogManager().logDebugConsole("Enchantments : " +  items[i].getEnchantments());
                 for (Map.Entry<Enchantment, Integer> enchantment : items[i].getEnchantments().entrySet()) {
                     if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
@@ -40,7 +43,7 @@ public class InventoryListener implements Listener {
                     } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
                         plugin.getLogManager().logDebugConsole("Enchantments : Replace");
                         items[i].removeEnchantment(enchantment.getKey());
-                        items[i].addEnchantment(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())); // TODO may have to reset item (e.setResult(ItemStack))
+                        items[i].addEnchantment(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
                     }
                 }
             } else {
@@ -55,11 +58,11 @@ public class InventoryListener implements Listener {
                         plugin.getLogManager().logDebugConsole("Stored Enchantments : Replace");
                         EnchantmentStorageMeta meta = ((EnchantmentStorageMeta)items[i].getItemMeta());
                         meta.removeStoredEnchant(enchantment.getKey());
-                        meta.addStoredEnchant(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()), true); // TODO may have to reset item (e.setResult(ItemStack))
+                        meta.addStoredEnchant(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()), true);
                         items[i].setItemMeta(meta);
                     }
                 }
-                if (items[i].getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)(items[i].getItemMeta())).getStoredEnchants().isEmpty() == true) {
+                if (items[i].getType() == Material.ENCHANTED_BOOK && ((EnchantmentStorageMeta)(items[i].getItemMeta())).getStoredEnchants().isEmpty()) {
                     items[i] = new ItemStack(Material.BOOK);
                 } else {
                     plugin.getLogManager().logDebugConsole("Stored Enchantments : " +  ((EnchantmentStorageMeta)items[i].getItemMeta()).getStoredEnchants());
