@@ -62,7 +62,7 @@ public class CommandEnchantControl implements CommandExecutor, TabCompleter {
         List<String> tabComplete = new ArrayList<>();
 
         for (String str : defaultTabComplete) {
-            if (plugin.getConfigManager().doPathExist(enchantcontrolTabComplete + "." + str + ".command") == true) {
+            if (plugin.getConfigManager().doPathExist(enchantcontrolTabComplete + "." + str + ".command")) {
                 tabComplete.add(plugin.getConfigManager().getStringFromPath(enchantcontrolTabComplete + "." + str + ".command"));
             } else {
                 tabComplete.add(str);
