@@ -30,7 +30,7 @@ ___
 
 Here on github's [Issue Tracker] you can file bug reports or feature requests.
 
-If you still need help or just have a question, join us on the [Discord server], where you can have support from both developper and community and alos discuss about the  development of the plugin.
+If you still need help or just have a question, join us on the [Discord server], where you can have support from both developer and community and also discuss about the  development of the plugin.
 
 ___
 
