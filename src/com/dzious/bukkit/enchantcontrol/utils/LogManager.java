@@ -37,7 +37,7 @@ public class LogManager {
 
     public void logDebugConsole(String msg) {
         if (isDebugEnable() == true)
-            logger.info(ChatColor.BLUE + "[" + plugin.getName() + "] Debug : " + ChatColor.WHITE + msg);
+            logger.info("[" + ChatColor.RED + plugin.getName() + ChatColor.WHITE + "]" + ChatColor.BLUE + "[Debug]" + ChatColor.WHITE + " : "  + msg);
     }
 
     public void logDebugPlayer(String msg) {

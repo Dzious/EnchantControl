@@ -10,9 +10,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
+import net.md_5.bungee.api.ChatColor;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class FishingListener implements Listener {
@@ -34,67 +36,71 @@ public class FishingListener implements Listener {
         }
 
         Item item = (Item)(e.getCaught());
-        if (item.getItemStack().getEnchantments().isEmpty() &&
-            (item.getItemStack().getItemMeta() == null ||
-            !(item.getItemStack().getItemMeta() instanceof EnchantmentStorageMeta) ||
-            ((EnchantmentStorageMeta)(item.getItemStack().getItemMeta())).getStoredEnchants().isEmpty())) {
-            plugin.getLogManager().logDebugConsole("");
+        if (item.getItemStack().getItemMeta() == null ||
+            (item.getItemStack().getItemMeta().getEnchants().isEmpty() &&
+            (!(item.getItemStack().getItemMeta() instanceof EnchantmentStorageMeta) ||
+            ((EnchantmentStorageMeta)(item.getItemStack().getItemMeta())).getStoredEnchants().isEmpty()))) {
+            plugin.getLogManager().logDebugConsole("Item Caught Is not Enchanted");
             return;
         }
 
         plugin.getLogManager().logDebugConsole("Caught : " + ((Item)e.getCaught()).getItemStack());
-
-        if (!((Item)e.getCaught()).getItemStack().getEnchantments().isEmpty()) {
-            List<Enchantment> enchantmentsList = new ArrayList<>();
-            for (Map.Entry<Enchantment, Integer> enchantment : ((Item)e.getCaught()).getItemStack().getEnchantments().entrySet()) {
-                enchantmentsList.add(enchantment.getKey());
-            }
-
-            for (Map.Entry<Enchantment, Integer> enchantment : ((Item)e.getCaught()).getItemStack().getEnchantments().entrySet()) {
-                if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
-                    Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(((Item)e.getCaught()).getItemStack(), enchantmentsList);
-                    Integer enchantmentLevel = enchantment.getValue();
-
-                    ((Item)e.getCaught()).getItemStack().removeEnchantment(enchantment.getKey());
-                    if (newEnchantment != null) {
-                        if (enchantmentLevel > plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment))
-                            enchantmentLevel = plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment);
-                        ((Item)e.getCaught()).getItemStack().addEnchantment(newEnchantment, enchantmentLevel);
-                    }
-                } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-                    ((Item)e.getCaught()).getItemStack().removeEnchantment(enchantment.getKey());
-                    ((Item)e.getCaught()).getItemStack().addEnchantment(enchantment.getKey(),plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
-                }
-            }
+        
+        Map<Enchantment, Integer> enchantments;
+        if (!item.getItemStack().getItemMeta().getEnchants().isEmpty()) {
+            enchantments = new HashMap<>(item.getItemStack().getItemMeta().getEnchants());
         } else {
-            List<Enchantment> enchantmentsList = new ArrayList<>();
-            for (Map.Entry<Enchantment, Integer> enchantment : ((EnchantmentStorageMeta)(((Item)(e.getCaught())).getItemStack().getItemMeta())).getStoredEnchants().entrySet()) {
-                enchantmentsList.add(enchantment.getKey());
-            }
+            enchantments = new HashMap<>(((EnchantmentStorageMeta)item.getItemStack().getItemMeta()).getStoredEnchants());
+        }
 
-            for (Map.Entry<Enchantment, Integer> enchantment : ((EnchantmentStorageMeta)(((Item)(e.getCaught())).getItemStack().getItemMeta())).getStoredEnchants().entrySet()) {
-                if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
-                    EnchantmentStorageMeta meta = ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta());
-                    Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(((Item)e.getCaught()).getItemStack(), enchantmentsList);
-                    Integer enchantmentLevel = enchantment.getValue();
-                    meta.removeStoredEnchant(enchantment.getKey());
-                    if (newEnchantment != null) {
-                        if (enchantmentLevel > plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment))
-                            enchantmentLevel = plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment);
-                        meta.addStoredEnchant(newEnchantment, enchantmentLevel, false);
-                    }
-                    ((Item)e.getCaught()).getItemStack().setItemMeta(meta);
-                } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-                    EnchantmentStorageMeta meta = ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta());
-                    meta.removeStoredEnchant(enchantment.getKey());
-                    meta.addStoredEnchant(enchantment.getKey(),plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()), false);
-                    ((Item)e.getCaught()).getItemStack().setItemMeta(meta);
+        ItemMeta meta = item.getItemStack().getItemMeta();
+        for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
+            if (!item.getItemStack().getItemMeta().getEnchants().isEmpty() && meta.getEnchants().containsKey(enchantment.getKey())) {
+                meta.removeEnchant(enchantment.getKey());
+            } else if (((EnchantmentStorageMeta)meta).getStoredEnchants().containsKey(enchantment.getKey())) {
+                ((EnchantmentStorageMeta)meta).removeStoredEnchant(enchantment.getKey());
+            }
+        }
+
+        Map<Enchantment, Integer> finalEnchantments = new HashMap<>();
+        for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
+            if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
+                plugin.getLogManager().logDebugConsole("Removed : " + ChatColor.GREEN + enchantment.getKey().getKey());
+                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(item.getItemStack(), enchantments.keySet().toArray());
+                Integer enchantmentLevel = enchantment.getValue();
+
+                if (newEnchantment != null) {
+                    if (enchantmentLevel > plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment))
+                        enchantmentLevel = plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment);
+                        finalEnchantments.put(newEnchantment, enchantmentLevel);
+                }
+            } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
+                plugin.getLogManager().logDebugConsole("Replaced : " + ChatColor.GREEN + enchantment.getKey().getKey() + ChatColor.WHITE + ". Level was : " + ChatColor.GREEN + enchantment.getValue() + ChatColor.WHITE + " and is now : " + ChatColor.GREEN);
+                finalEnchantments.put(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
+            } else {
+                finalEnchantments.put(enchantment.getKey(),enchantment.getValue());
+            }
+        }
+
+        plugin.getLogManager().logDebugConsole("Enchantments (End) : " + finalEnchantments.toString());
+
+        if (finalEnchantments.isEmpty() && item.getItemStack().getType() == Material.ENCHANTED_BOOK) {
+            ((Item)(e.getCaught())).setItemStack(new ItemStack(Material.BOOK));
+        } else {
+            for (Map.Entry<Enchantment, Integer> enchantment : finalEnchantments.entrySet()) {
+                plugin.getLogManager().logDebugConsole("Enchantment (Loop) : " + finalEnchantments.toString());
+                if (!item.getItemStack().getItemMeta().getEnchants().isEmpty()) {
+                    meta.addEnchant(enchantment.getKey(), enchantment.getValue(), true);
+                } else {
+                    ((EnchantmentStorageMeta)meta).addStoredEnchant(enchantment.getKey(), enchantment.getValue(), true);
                 }
             }
-            if (((Item)e.getCaught()).getItemStack().getType() == Material.ENCHANTED_BOOK &&
-                ((EnchantmentStorageMeta)((Item)e.getCaught()).getItemStack().getItemMeta()).getStoredEnchants().isEmpty())
-                ((Item)e.getCaught()).setItemStack(new ItemStack(Material.BOOK));
+            ((Item)(e.getCaught())).getItemStack().setItemMeta(meta);
+            if (!item.getItemStack().getItemMeta().getEnchants().isEmpty()) {
+                plugin.getLogManager().logDebugConsole("Enchantments (Meta) : " + ((Item)(e.getCaught())).getItemStack().getItemMeta().getEnchants().toString());
+            } else {
+                plugin.getLogManager().logDebugConsole("Stored Enchantments (Meta) : " + ((EnchantmentStorageMeta)((Item)(e.getCaught())).getItemStack().getItemMeta()).getStoredEnchants().toString());
+            }
         }
     }
-
 }

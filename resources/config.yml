@@ -6,7 +6,7 @@
 # Will print StackTrace to your console if an error occurs
 # Will eventually print some messages in your console and/or chat of specified player(s)
 debug:
-    enable: true
+    enable: false
     player: Dzious
 
 
@@ -17,16 +17,16 @@ debug:
 # Enable or Disable the enchantments update in inventory
 # THIS MAY CAUSE A LOT OF UPDATES AND SO SOME LAGS.
 # SERVER THAT NEVER EVER HAD ENCHANTMENTS SHALL NOT ACTIVATE THIS
-update_inventory: false
+update_inventory: false ## NOT TESTED YET
 
 # Enable or Disable the abilty to repair your stuff using mending enchantment
 # Mending mending should be disable in order for this to work
 mending_repair: true
 
 # Enable or Disable the ability to go over minecradt vanilla enchantments level
-bypass_levels: false
+bypass_levels: false ## NOT TESTED YET
 
-# Enchantment that have to be controlled.
+# Enchantment that have to be controlled. 
 # Enchantment that aren't there will be kept on their default values
 # enchantments.<sourceName>.<enchantmentName>: <maxLevel>
 # Source Name       is the origin of the enchantments.      Example : minecraft
@@ -37,61 +37,8 @@ bypass_levels: false
 #                   level range is between 0-2147483647     Example : 4
 enchantments:
     minecraft:
-    # Armor
-        protection: 0
-        blast_protection: 0
-        fire_protection: 0
-        projectile_protection: 0
-    # Helmet
-        aqua_affinity: 0
-        respiration: 0
-    # Chestplate
-        thorns: 0
-    # Leggings
-        # Potentials future enchantments
-    # Boots 
-        feather_falling: 0
-        soul_speed: 0
-        depth_strider: 0
-        frost_walker: 0
-
-    # Weapons
-    # Sword
-        sharpness: 0
-        smite: 0
-        bane_of_arthropods: 0
-        fire_aspect: 0
-        looting: 0
-        knockback: 0
-        sweeping: 0
-    # Bow 
-        power: 0
-        punch: 0
-        flame: 0
-        infinity: 0
-    # CrossBow
-        multishot: 0
-        quick_charge: 0
-        piercing: 0
-    # Trident
-        channeling: 0
-        impaling: 0
-        riptide: 0
-        loyalty: 0
-
-    # Tools
-    # Pickaxe, Axe, Shovel
-        efficiency: 0
-        fortune: 0
-        silk_touch: 0
-    # Fishing Rod
-        lure: 0
-        luck_of_the_sea: 0
-
-    # General
-    # Positive
-        unbreaking: 0
-        mending: 0
-    # Curse
-        vanishing_curse: 0
-        binding_curse: 0
+        # Disable Mending, Infinity, and set Riptide max lvl to 1 and BaneOfAthropods to 6
+        # mending: 0
+        # infinity: 0
+        # riptide: 1
+        # bane_of_arthropods: 6

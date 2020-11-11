@@ -6,12 +6,12 @@ name: EnchantControl
 
 author: Dzious
 
-version: 1.0
+version: 1.0_Pre-Release
 
 website: github.com/Dzious
 
 description: >
-    Template Plugin Description
+    This plugin allow you to control which enchants are available on your server
 
 api-version: 1.16
 prefix: EnchantControl
@@ -26,14 +26,10 @@ softdepend: []
 ######################################
 
 commands:
-    Template:
-        aliases: [template, tmplt, t]
-        description: EnchantControl command description
-        usage: Template command usage
     EnchantControl:
         aliases: [enchantcontrol]
         description:
-        usage: EnchantControl command usage
+        usage: "use /enchantcontrol reload to reload enchants levels from config"
 
 #########################################
 #    Permissions Related Information    #

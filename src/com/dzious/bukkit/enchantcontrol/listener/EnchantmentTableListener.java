@@ -29,13 +29,16 @@ public class EnchantmentTableListener implements Listener {
         if (!plugin.getEnchantmentManager().hasEnchantActive(e.getItem()))
             return;
 
-        plugin.getLogManager().logDebugConsole(ChatColor.BLUE + "Generating offers : ");
+        plugin.getLogManager().logDebugConsole("Generating offers : ");
 
         List<Enchantment> offersList = new ArrayList<>();
         for (int i = 0; i < e.getOffers().length; i++) {
             if (e.getOffers()[i] != null) {
-                plugin.getLogManager().logDebugConsole(ChatColor.GREEN + "Offer " + i + " is "  +  e.getOffers()[i].getEnchantment().toString());
+                plugin.getLogManager().logDebugConsole("Offer " + i + " is "  + ChatColor.GREEN + e.getOffers()[i].getEnchantment().toString());
                 offersList.add(e.getOffers()[i].getEnchantment());
+            } else {
+                plugin.getLogManager().logDebugConsole("Offer " + i + " is " + ChatColor.GREEN + "null");
+                offersList.add(null);
             }
         }
 
@@ -44,7 +47,7 @@ public class EnchantmentTableListener implements Listener {
                continue;
             if (plugin.getEnchantmentManager().getAffectedEnchantments().get(e.getOffers()[i].getEnchantment()) <= 0) {
 
-                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), offersList);
+                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), offersList.toArray());
 
                 e.getOffers()[i].setEnchantment(newEnchantment);
                 if (newEnchantment != null) {
@@ -57,6 +60,8 @@ public class EnchantmentTableListener implements Listener {
                 e.getOffers()[i].setEnchantmentLevel(plugin.getEnchantmentManager().getAffectedEnchantments().get(e.getOffers()[i].getEnchantment()));
             }
         }
+        plugin.getLogManager().logDebugConsole(e.getOffers().toString());
+        plugin.getLogManager().logDebugConsole(offersList.toString());
         plugin.getPlayersManager().getPlayer(e.getEnchanter().getUniqueId()).setOffers(e.getOffers(), offersList);
     }
 
@@ -79,8 +84,7 @@ public class EnchantmentTableListener implements Listener {
 
         for (Map.Entry<Enchantment, Integer> enchantment : e.getEnchantsToAdd().entrySet()) {
             if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
-
-                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), enchantments);
+                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), enchantments.toArray());
 
                 if (newEnchantment != null) {
                     Map<Enchantment, Integer> newApplicableEnchantment = new HashMap<>();

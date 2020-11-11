@@ -28,7 +28,7 @@ public class EnchantmentPlayer {
     public void clearOffers() {
         registeredOffers.clear();
     }
-
+    
     public Map<Enchantment, EnchantmentOffer> getOffers(int requestedIdx) {
         Map<Enchantment, EnchantmentOffer> offers = registeredOffers.get(requestedIdx);
 

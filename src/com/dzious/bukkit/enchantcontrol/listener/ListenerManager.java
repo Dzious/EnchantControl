@@ -38,8 +38,10 @@ public class ListenerManager {
         if (plugin.getEnchantmentManager().getAffectedEnchantments().get(Enchantment.MENDING) < 1 && !configurableListenersValues.get("mending_repair"))
             plugin.getServer().getPluginManager().registerEvents(new MendingCancelerListener(), plugin);
         
-        if (configurableListenersValues.get("update_inventory"))
-           plugin.getServer().getPluginManager().registerEvents(new InventoryListener(plugin), plugin); 
+        if (configurableListenersValues.get("update_inventory")) {
+            plugin.getLogManager().logDebugConsole("Here");
+            plugin.getServer().getPluginManager().registerEvents(new InventoryListener(plugin), plugin); 
+        }
 
 //        if (doMendingRepair == false)
 //            plugin.getServer().getPluginManager().registerEvents(new MendingCancelerListener(), plugin);
