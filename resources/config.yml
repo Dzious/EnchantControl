@@ -3,8 +3,7 @@
 #############################
 
 # Debug : true/false
-# Will print StackTrace to your console if an error occurs
-# Will eventually print some messages in your console and/or chat of specified player(s)
+# Will print some messages in your console and/or chat of specified player(s)
 debug:
     enable: false
     player: Dzious
@@ -17,14 +16,14 @@ debug:
 # Enable or Disable the enchantments update in inventory
 # THIS MAY CAUSE A LOT OF UPDATES AND SO SOME LAGS.
 # SERVER THAT NEVER EVER HAD ENCHANTMENTS SHALL NOT ACTIVATE THIS
-update_inventory: false ## NOT TESTED YET
+update_inventory: false
 
 # Enable or Disable the abilty to repair your stuff using mending enchantment
-# Mending mending should be disable in order for this to work
+# Mending has to be disable in order for this to work
 mending_repair: true
 
-# Enable or Disable the ability to go over minecradt vanilla enchantments level
-bypass_levels: false ## NOT TESTED YET
+# Enable or Disable the ability to go over minecraft vanilla enchantments levels
+bypass_levels: false
 
 # Enchantment that have to be controlled. 
 # Enchantment that aren't there will be kept on their default values
