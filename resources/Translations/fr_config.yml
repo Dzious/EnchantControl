@@ -1,0 +1,53 @@
+##########################################
+# REMPLACEZ LE config.yml PAR CE FICHIER #
+# DANS LE DOSSIER plugins/EnchantControl #
+#            SUR VOTRE SERVER            #
+##########################################
+
+##############################
+#   Configuration Générale   #
+##############################
+
+# Debug : true/false
+# Activer le mode debug affichera des messages dans la console à differentes occasions (Erreurs ou simple Infos)
+# Lorsque le mode debug est activé, il affiche également de temps en temps des messages au joueur specifié
+debug:
+    enable: false
+    player: Dzious
+
+
+#########################################
+#    Configuration des Enchantements    #
+#########################################
+
+# Activer ou désactiver la détection et la suppression des enchantements "interdits"
+# ATTENTION L'ACTIVATION DE CETTE FONCTIONALITE PEUT CAUSER DES RALENTISSEMENTS
+# Les serveurs n'ayant jamais eut d'enchantement en circulation ne devraient pas activer cette fonctionnalité
+update_inventory: false
+
+# Active ou Désactive la capacité de l'enchantement "Racommodage" à réparer les items
+# Raccomodage doit être désactivé pour que cette fonctionalité soit active
+mending_repair: true
+
+# Active ou Desactive la possibilité d'aller au dessus des niveaux normaux de minecraft
+bypass_levels: false
+
+# Enchantements devant être controlés. 
+# Les enchantement qui ne sont pas dans cette liste garderont leur valeur max initiale
+# enchantments.<sourceName>.<enchantmentName>: <maxLevel>
+# Source Name       est l'origine de l'enchantement.                            Exemple : minecraft
+# Enchantment Name  est le nom de l'enchantement (doit être en anglais).        Exemple : protection
+# Max Level         est le niveau maximum souhaité sur votre server.
+#                   Pour désactiver un enchantement, mettez son niveau à 0.
+#                   Les niveaux peuvent aller de 0 à 2147483647                 Exemple : 4
+
+# Pour avoir une liste des enchantements : https://minecraft-fr.gamepedia.com/Enchantement
+# Dans la sous catégorie "Identifiants", appuyez sur "Développer"
+
+enchantments:
+    minecraft:
+        # Désactive Mending, Infinity, et met le niveau max de Riptide à 1 et celui de Bane Of Athropods à 6
+        # mending: 0
+        # infinity: 0
+        # riptide: 1
+        # bane_of_arthropods: 6
