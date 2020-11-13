@@ -28,7 +28,7 @@ ___
 
 ### Support
 
-Here on github's [Issue Tracker] you can file bug reports or feature requests.
+Here on github's [Issue Tracker] you can file [bug reports] or [feature requests].
 
 If you still need help or just have a question, join us on the [Discord server], where you can have support from both developer and community and also discuss about the  development of the plugin.
 
@@ -40,11 +40,11 @@ ___
 [Arkobat]: https://github.com/Arkobat
 [EnchantContol]: https://www.spigotmc.org/resources/enchantcontrol-1-8-1-14-take-back-control-over-all-enchants-on-your-server.55084/_
 
-<!-- [Latest Release] -->
+[Latest Release]: https://github.com/Dzious/EnchantControl/releases/tag/v1.0.0 
 <!-- [Latest Pre-Release] -->
 
 [Issue Tracker]: https://github.com/Dzious/EnchantControl/issues
-<!-- [bug reports] -->
-<!-- [feature requests] -->
+[bug reports]: https://github.com/Dzious/EnchantControl/issues/new?assignees=&labels=bug&template=bug_report.md&title=
+[feature requests]: https://github.com/Dzious/EnchantControl/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=
 <!-- [general questions] -->
 [Discord server]: https://discord.gg/MNAeetQV4C
