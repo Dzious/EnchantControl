@@ -97,26 +97,35 @@ public class AnvilListener implements Listener {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         Map<Enchantment, Integer> lhsEnchantments = null;
         Map<Enchantment, Integer> rhsEnchantments = null;
+        boolean isFusionPossible = false;
         
         for (int i = 0; i < 2; i++) {
-            if (items[i] == null || items[i].getItemMeta() == null || 
-                (items[i].getItemMeta().getEnchants().isEmpty() == true && 
-                (!(items[i].getItemMeta() instanceof EnchantmentStorageMeta) ||
-                ((EnchantmentStorageMeta)items[i].getItemMeta()).getStoredEnchants().isEmpty() == true))) {
-                return (enchantments);
+            if (items[i] != null && items[i].getItemMeta() != null && 
+                (!items[i].getItemMeta().getEnchants().isEmpty() || 
+                (items[i].getItemMeta() instanceof EnchantmentStorageMeta &&
+                !((EnchantmentStorageMeta)items[i].getItemMeta()).getStoredEnchants().isEmpty()))) {
+                isFusionPossible = true;
             }
         }
+        if (!isFusionPossible)
+            return (null);
         
         if (!items[0].getItemMeta().getEnchants().isEmpty()) {
             lhsEnchantments = new HashMap<>(items[0].getItemMeta().getEnchants()); ;
-        } else {
+        } else if (items[0].getItemMeta() instanceof EnchantmentStorageMeta &&
+                !((EnchantmentStorageMeta)items[0].getItemMeta()).getStoredEnchants().isEmpty()) {
             lhsEnchantments = new HashMap<>(((EnchantmentStorageMeta)items[0].getItemMeta()).getStoredEnchants());
+        } else {
+            lhsEnchantments = new HashMap<>();
         }
 
         if (!items[1].getItemMeta().getEnchants().isEmpty()) {
             rhsEnchantments = new HashMap<>(items[1].getItemMeta().getEnchants()); ;
-        } else {
+        } else if (items[1].getItemMeta() instanceof EnchantmentStorageMeta &&
+            !((EnchantmentStorageMeta)items[1].getItemMeta()).getStoredEnchants().isEmpty()) {
             rhsEnchantments = new HashMap<>(((EnchantmentStorageMeta)items[1].getItemMeta()).getStoredEnchants());
+        } else {
+            rhsEnchantments = new HashMap<>();
         }
 
         for (Map.Entry<Enchantment, Integer> enchantment : lhsEnchantments.entrySet()) {
