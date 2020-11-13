@@ -100,7 +100,10 @@ public class AnvilListener implements Listener {
         boolean isFusionPossible = false;
         
         for (int i = 0; i < 2; i++) {
-            if (items[i] != null && items[i].getItemMeta() != null && 
+            if (items[i] == null) {
+                return (null);
+            }
+            if (items[i].getItemMeta() != null && 
                 (!items[i].getItemMeta().getEnchants().isEmpty() || 
                 (items[i].getItemMeta() instanceof EnchantmentStorageMeta &&
                 !((EnchantmentStorageMeta)items[i].getItemMeta()).getStoredEnchants().isEmpty()))) {
