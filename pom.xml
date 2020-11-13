@@ -6,7 +6,7 @@
 
     <groupId>com.dzious.bukkit.enchantcontrol</groupId>
     <artifactId>EnchantControl_Reforged</artifactId>
-    <version>1.0_Pre-Release</version>
+    <version>1.1.0</version>
 
     <properties>
         <java.version>1.8</java.version>
@@ -19,10 +19,6 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <repository>
-            <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -33,18 +29,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>${project.ApiVersion}-R0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>20.1.0</version>
             <scope>compile</scope>
         </dependency>
-
     </dependencies>
 
     <build>
