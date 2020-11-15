@@ -1,12 +1,16 @@
 package com.dzious.bukkit.enchantcontrol.plugin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
+
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
 
 public class EnchantmentManager {
 
@@ -47,9 +51,9 @@ public class EnchantmentManager {
         
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
             plugin.getLogManager().logDebugConsole("Currently processing : " + ChatColor.GREEN + enchantment.getKey() + ChatColor.WHITE + ". It's level is " + ChatColor.RED + enchantment.getValue());
-            String[] enchantmentId = enchantment.toString().split(":");
-            if (plugin.getConfigManager().doPathExist("enchantment." + enchantmentId[0] + "." + enchantmentId[1])) {
-                int newLevel = plugin.getConfigManager().getIntFromPath("enchantment." + enchantmentId[0] + "." + enchantmentId[1]);
+            String[] enchantmentId = enchantment.getKey().getKey().toString().split(":");
+            if (plugin.getConfigManager().doPathExist("enchantments." + enchantmentId[0] + "." + enchantmentId[1])) {
+                int newLevel = plugin.getConfigManager().getIntFromPath("enchantments." + enchantmentId[0] + "." + enchantmentId[1]);
                 if (enchantment.getValue() != newLevel) {
                     plugin.getLogManager().logDebugConsole("Replaced " + enchantment.getKey() + ". Old value was " + enchantment.getValue() + ", new value is " + newLevel + ".");
                     enchantment.setValue(newLevel);

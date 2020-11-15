@@ -1,20 +1,33 @@
 package com.dzious.bukkit.enchantcontrol.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import java.io.File;
-import java.util.*;
 
 public class ConfigManager {
     private FileConfiguration configFile = null;
+    private final EnchantControl plugin;
 
-    public ConfigManager (EnchantControl plugin) {
-        File file = new File(plugin.getDataFolder(),  "config.yml");
+    public ConfigManager(EnchantControl plugin) {
+        this.plugin = plugin;
+        File file = new File(this.plugin.getDataFolder(), "config.yml");
         if (file.exists() == false)
-            plugin.saveDefaultConfig();
-        configFile = plugin.getConfig();
+            this.plugin.saveDefaultConfig();
+        configFile = this.plugin.getConfig();
+    }
+
+    public void reload() throws FileNotFoundException, IOException, InvalidConfigurationException {
+        File file = new File(plugin.getDataFolder(), "config.yml");
+        configFile.load(file);
     }
 
     public boolean doPathExist (String path) {
