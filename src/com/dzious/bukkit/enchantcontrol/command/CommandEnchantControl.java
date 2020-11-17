@@ -10,11 +10,13 @@ import java.util.Map;
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import com.dzious.bukkit.enchantcontrol.utils.Utils;
 
+import org.bukkit.Color;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.entity.Player;
 
 public class CommandEnchantControl implements CommandExecutor, TabCompleter {
 
@@ -32,6 +34,8 @@ public class CommandEnchantControl implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (sender instanceof Player && !sender.isOp()) 
+            sender.sendMessage(Color.RED + "Sorry, only OPs can use this command.");
         plugin.getLogManager().logDebugConsole("Enchant Control Command");
         plugin.getLogManager().logDebugConsole("length : " + args.length);
         for (int i = 0; i < args.length; i++)
