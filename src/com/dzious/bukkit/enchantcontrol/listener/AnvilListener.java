@@ -1,5 +1,8 @@
 package com.dzious.bukkit.enchantcontrol.listener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 import org.bukkit.enchantments.Enchantment;
@@ -11,9 +14,6 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.md_5.bungee.api.ChatColor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class AnvilListener implements Listener {
     private final EnchantControl plugin;
@@ -116,7 +116,7 @@ public class AnvilListener implements Listener {
         if (!items[0].getItemMeta().getEnchants().isEmpty()) {
             lhsEnchantments = new HashMap<>(items[0].getItemMeta().getEnchants()); ;
         } else if (items[0].getItemMeta() instanceof EnchantmentStorageMeta &&
-                !((EnchantmentStorageMeta)items[0].getItemMeta()).getStoredEnchants().isEmpty()) {
+            !((EnchantmentStorageMeta)items[0].getItemMeta()).getStoredEnchants().isEmpty()) {
             lhsEnchantments = new HashMap<>(((EnchantmentStorageMeta)items[0].getItemMeta()).getStoredEnchants());
         } else {
             lhsEnchantments = new HashMap<>();
@@ -132,10 +132,16 @@ public class AnvilListener implements Listener {
         }
 
         for (Map.Entry<Enchantment, Integer> enchantment : lhsEnchantments.entrySet()) {
-            if (rhsEnchantments.containsKey(enchantment.getKey()) &&
-                enchantment.getValue() == rhsEnchantments.get(enchantment.getKey()) &&
-                enchantment.getValue() < plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-                enchantments.put(enchantment.getKey(), enchantment.getValue() + 1);
+            if (rhsEnchantments.containsKey(enchantment.getKey())) {
+                if (enchantment.getValue() == rhsEnchantments.get(enchantment.getKey()) &&
+                    enchantment.getValue() < plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
+                    enchantments.put(enchantment.getKey(), enchantment.getValue() + 1);
+                } else if (enchantment.getValue() < rhsEnchantments.get(enchantment.getKey())) {
+                    enchantments.put(enchantment.getKey(), rhsEnchantments.get(enchantment.getKey()));
+                } else {
+                    enchantments.put(enchantment.getKey(), enchantment.getValue());
+
+                }
             } else {
                 enchantments.put(enchantment.getKey(), enchantment.getValue());
             }

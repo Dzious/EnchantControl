@@ -40,7 +40,7 @@ ___
 [Arkobat]: https://github.com/Arkobat
 [EnchantContol]: https://www.spigotmc.org/resources/enchantcontrol-1-8-1-14-take-back-control-over-all-enchants-on-your-server.55084
 
-[Latest Release]: https://github.com/Dzious/EnchantControl/releases/tag/v1.2.1
+[Latest Release]: https://github.com/Dzious/EnchantControl/releases/tag/v1.2.2
 <!-- [Latest Pre-Release] -->
 
 [Issue Tracker]: https://github.com/Dzious/EnchantControl/issues
