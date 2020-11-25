@@ -1,5 +1,10 @@
 package com.dzious.bukkit.enchantcontrol.listener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 import org.bukkit.ChatColor;
@@ -10,11 +15,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.enchantment.PrepareItemEnchantEvent;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class EnchantmentTableListener implements Listener {
     private final EnchantControl plugin;
@@ -47,7 +47,7 @@ public class EnchantmentTableListener implements Listener {
                continue;
             if (plugin.getEnchantmentManager().getAffectedEnchantments().get(e.getOffers()[i].getEnchantment()) <= 0) {
 
-                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), offersList.toArray());
+                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), offersList);
 
                 e.getOffers()[i].setEnchantment(newEnchantment);
                 if (newEnchantment != null) {
@@ -84,7 +84,7 @@ public class EnchantmentTableListener implements Listener {
 
         for (Map.Entry<Enchantment, Integer> enchantment : e.getEnchantsToAdd().entrySet()) {
             if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
-                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), enchantments.toArray());
+                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), enchantments);
 
                 if (newEnchantment != null) {
                     Map<Enchantment, Integer> newApplicableEnchantment = new HashMap<>();

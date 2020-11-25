@@ -1,12 +1,12 @@
 package com.dzious.bukkit.enchantcontrol.plugin;
 
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.enchantments.EnchantmentOffer;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.enchantments.EnchantmentOffer;
 
 public class EnchantmentPlayer {
     List<Map<Enchantment,EnchantmentOffer>> registeredOffers = new ArrayList<>();

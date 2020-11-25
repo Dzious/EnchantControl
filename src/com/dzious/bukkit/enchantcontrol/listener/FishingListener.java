@@ -1,5 +1,9 @@
 package com.dzious.bukkit.enchantcontrol.listener;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 import org.bukkit.Material;
@@ -13,9 +17,6 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.md_5.bungee.api.ChatColor;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class FishingListener implements Listener {
     private final EnchantControl plugin;
@@ -66,7 +67,7 @@ public class FishingListener implements Listener {
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
             if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
                 plugin.getLogManager().logDebugConsole("Removed : " + ChatColor.GREEN + enchantment.getKey().getKey());
-                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(item.getItemStack(), enchantments.keySet().toArray());
+                Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(item.getItemStack(), new ArrayList<>(enchantments.keySet()));
                 Integer enchantmentLevel = enchantment.getValue();
 
                 if (newEnchantment != null) {

@@ -1,5 +1,10 @@
 package com.dzious.bukkit.enchantcontrol.listener;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.dzious.bukkit.enchantcontrol.EnchantControl;
+
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -11,11 +16,6 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import net.md_5.bungee.api.ChatColor;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 public class InventoryListener implements Listener {
     final EnchantControl plugin;
@@ -38,7 +38,8 @@ public class InventoryListener implements Listener {
     ItemStack[] removeEnchants(ItemStack[] items) 
     {
         for (int i = 0; i < items.length; i++) {
-            if (items[i] == null ||
+            if (items[i] == null || 
+                items[i].getType() == Material.SHULKER_BOX || 
                 items[i].getItemMeta() == null || 
                 (items[i].getEnchantments().isEmpty() &&
                 (!(items[i].getItemMeta() instanceof EnchantmentStorageMeta) ||

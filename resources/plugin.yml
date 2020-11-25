@@ -2,11 +2,11 @@
 #    General Plugin Informations    #
 #####################################
 
-name: EnchantControl
+name: ${artifactId}
 
 author: Dzious
 
-version: 1.0_Pre-Release
+version: ${version}
 
 website: github.com/Dzious
 
@@ -14,7 +14,7 @@ description: >
     This plugin allow you to control which enchants are available on your server
 
 api-version: 1.16
-prefix: EnchantControl
+prefix: ${artifactId}
 
 main: com.dzious.bukkit.enchantcontrol.EnchantControl
 depend: []
@@ -36,7 +36,7 @@ commands:
 #########################################
 
 permissions:
-    template.admin:
+    enchantcontrol.admin:
         description: User is able to use all staff-related commands
         default: false
         children:

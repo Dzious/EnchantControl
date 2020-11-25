@@ -98,7 +98,7 @@ public class EnchantmentManager {
         return (validEnchantments);
     }
 
-    public List<Enchantment> getValidEnchantments(ItemStack item, Enchantment[] currents) {
+    public List<Enchantment> getValidEnchantments(ItemStack item, List<Enchantment> currents) {
         List<Enchantment> validEnchantmentsList = getValidEnchantments(item);
         List<Enchantment> validEnchantments = new ArrayList<>();
 
@@ -109,7 +109,7 @@ public class EnchantmentManager {
         return (validEnchantments);
     }
 
-    public List<Enchantment> getValidEnchantments(List<Enchantment> validEnchantments, Enchantment[] currents) {
+    public List<Enchantment> getValidEnchantments(List<Enchantment> validEnchantments, List<Enchantment> currents) {
         List<Enchantment> newValidEnchantments = new ArrayList<>();
         boolean conflict = false;
 
@@ -129,14 +129,14 @@ public class EnchantmentManager {
     }
 
 
-    public Enchantment rerollEnchantment(ItemStack item, Object[] currentEnchantments) {
+    public Enchantment rerollEnchantment(ItemStack item, List<Enchantment> currentEnchantments) {
 
         List<Enchantment> validEnchantmentsList = getValidEnchantments(item);
         List<Enchantment> currentValidEnchantmentsList = new ArrayList<>();
 
         if (currentEnchantments != null) {
-            currentValidEnchantmentsList = getValidEnchantments(item, (Enchantment[])currentEnchantments);
-            validEnchantmentsList = getValidEnchantments(validEnchantmentsList, (Enchantment[])currentEnchantments);
+            currentValidEnchantmentsList = getValidEnchantments(item, currentEnchantments);
+            validEnchantmentsList = getValidEnchantments(validEnchantmentsList, currentEnchantments);
         }
 
         if (validEnchantmentsList.size() == currentValidEnchantmentsList.size())
