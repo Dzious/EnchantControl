@@ -14,8 +14,8 @@ ___
 
 ### Installation/Configuration
 
-#### **Instalation :**
-- Download the jar file form our [Latest Release] or the version corresponding to your **Minecraft Version**
+#### **Installation :**
+- Download the jar file from our [Latest Release] or the version corresponding to your **Minecraft Version**
 - Safely shutdown your server
 - Put the jar file in your server `plugins` folder
 - Start the server
