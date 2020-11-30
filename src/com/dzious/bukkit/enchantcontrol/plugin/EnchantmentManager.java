@@ -32,11 +32,11 @@ public class EnchantmentManager {
             configEnchantments = this.plugin.getConfigManager().loadEnchantments(path);
         }
         for (Enchantment enchantment : enchantmentList) {
-            plugin.getLogManager().logDebugConsole("Currently processing : " + ChatColor.GREEN + enchantment.getKey() + ChatColor.WHITE + ". It's level is " + ChatColor.RED + enchantment.getMaxLevel());
+            plugin.getLogManager().logDebugConsole("Currently processing : " + ChatColor.GREEN + enchantment.getName() + ChatColor.WHITE + ". It's level is " + ChatColor.RED + enchantment.getMaxLevel());
             enchantments.put(enchantment, enchantment.getMaxLevel());
             for (Map.Entry<String, Integer> config : configEnchantments.entrySet()) {
-                if (enchantment.getKey().toString().equals(path + ":" + config.getKey()) == true) {
-                    plugin.getLogManager().logDebugConsole("Replaced " + enchantment.getKey() + ". Old value was " + enchantment.getMaxLevel() + ", new value is " + config.getValue() + ".");
+                if (enchantment.getName().toString().equals(path + ":" + config.getKey()) == true) {
+                    plugin.getLogManager().logDebugConsole("Replaced " + enchantment.getName() + ". Old value was " + enchantment.getMaxLevel() + ", new value is " + config.getValue() + ".");
                     enchantments.replace(enchantment, config.getValue());
                     break;
                 }
@@ -51,7 +51,7 @@ public class EnchantmentManager {
         
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
             plugin.getLogManager().logDebugConsole("Currently processing : " + ChatColor.GREEN + enchantment.getKey() + ChatColor.WHITE + ". It's level is " + ChatColor.RED + enchantment.getValue());
-            String[] enchantmentId = enchantment.getKey().getKey().toString().split(":");
+            String[] enchantmentId = enchantment.getKey().getName().split(":");
             if (plugin.getConfigManager().doPathExist("enchantments." + enchantmentId[0] + "." + enchantmentId[1])) {
                 int newLevel = plugin.getConfigManager().getIntFromPath("enchantments." + enchantmentId[0] + "." + enchantmentId[1]);
                 if (enchantment.getValue() != newLevel) {

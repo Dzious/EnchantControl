@@ -58,7 +58,7 @@ public class VillagerTradeListener implements Listener {
         Map<Enchantment, Integer> finalEnchantments = new HashMap<>();
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
             if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
-                plugin.getLogManager().logDebugConsole("Removed : " + ChatColor.GREEN + enchantment.getKey().getKey());
+                plugin.getLogManager().logDebugConsole("Removed : " + ChatColor.GREEN + enchantment.getKey().getName());
                 Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(item, new ArrayList<>(enchantments.keySet()));
                 Integer enchantmentLevel = enchantment.getValue();
 
@@ -68,7 +68,7 @@ public class VillagerTradeListener implements Listener {
                         finalEnchantments.put(newEnchantment, enchantmentLevel);
                 }
             } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-                plugin.getLogManager().logDebugConsole("Replaced : " + ChatColor.GREEN + enchantment.getKey().getKey() + ChatColor.WHITE + ". Level was : " + ChatColor.GREEN + enchantment.getValue() + ChatColor.WHITE + " and is now : " + ChatColor.GREEN);
+                plugin.getLogManager().logDebugConsole("Replaced : " + ChatColor.GREEN + enchantment.getKey().getName() + ChatColor.WHITE + ". Level was : " + ChatColor.GREEN + enchantment.getValue() + ChatColor.WHITE + " and is now : " + ChatColor.GREEN);
                 finalEnchantments.put(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
             } else {
                 finalEnchantments.put(enchantment.getKey(),enchantment.getValue());
@@ -80,7 +80,7 @@ public class VillagerTradeListener implements Listener {
         if (finalEnchantments.isEmpty() && item.getType() == Material.ENCHANTED_BOOK) {
             e.setCancelled(true);
             plugin.getServer().getPluginManager().callEvent(new VillagerAcquireTradeEvent(e.getEntity(), 
-                new MerchantRecipe(new ItemStack(Material.BOOK), 0, 12, true,1, (float)(0.05))));
+                new MerchantRecipe(new ItemStack(Material.BOOK), 0, 12, true)));
         } else {
             for (Map.Entry<Enchantment, Integer> enchantment : finalEnchantments.entrySet()) {
                 plugin.getLogManager().logDebugConsole("Enchantment (Loop) : " + finalEnchantments.toString());

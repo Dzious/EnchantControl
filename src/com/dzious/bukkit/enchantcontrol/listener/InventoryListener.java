@@ -39,7 +39,7 @@ public class InventoryListener implements Listener {
     {
         for (int i = 0; i < items.length; i++) {
             if (items[i] == null || 
-                items[i].getType() == Material.SHULKER_BOX || 
+                isShulkerBox(items[i].getType()) || 
                 items[i].getItemMeta() == null || 
                 (items[i].getEnchantments().isEmpty() &&
                 (!(items[i].getItemMeta() instanceof EnchantmentStorageMeta) ||
@@ -70,10 +70,10 @@ public class InventoryListener implements Listener {
             Map<Enchantment, Integer> finalEnchantments = new HashMap<>();
             for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
                 if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
-                    plugin.getLogManager().logDebugConsole("Removed : " + ChatColor.GREEN + enchantment.getKey().getKey());
+                    plugin.getLogManager().logDebugConsole("Removed : " + ChatColor.GREEN + enchantment.getKey().getName());
                     continue;
                 } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-                    plugin.getLogManager().logDebugConsole("Replaced : " + ChatColor.GREEN + enchantment.getKey().getKey() + ChatColor.WHITE + ". Level was : " + ChatColor.GREEN + enchantment.getValue() + ChatColor.WHITE + " and is now : " + ChatColor.GREEN);
+                    plugin.getLogManager().logDebugConsole("Replaced : " + ChatColor.GREEN + enchantment.getKey().getName() + ChatColor.WHITE + ". Level was : " + ChatColor.GREEN + enchantment.getValue() + ChatColor.WHITE + " and is now : " + ChatColor.GREEN);
                     finalEnchantments.put(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
                 } else {
                     finalEnchantments.put(enchantment.getKey(),enchantment.getValue());
@@ -102,5 +102,27 @@ public class InventoryListener implements Listener {
             }
         }
         return (items);
+    }
+
+    private boolean isShulkerBox(Material item) {
+        if (item == Material.SILVER_SHULKER_BOX ||
+            item == Material.BLACK_SHULKER_BOX ||
+            item == Material.BLUE_SHULKER_BOX ||
+            item == Material.BROWN_SHULKER_BOX ||
+            item == Material.CYAN_SHULKER_BOX ||
+            item == Material.GRAY_SHULKER_BOX ||
+            item == Material.GREEN_SHULKER_BOX ||
+            item == Material.LIGHT_BLUE_SHULKER_BOX ||
+            item == Material.LIME_SHULKER_BOX ||
+            item == Material.MAGENTA_SHULKER_BOX ||
+            item == Material.ORANGE_SHULKER_BOX ||
+            item == Material.PINK_SHULKER_BOX ||
+            item == Material.PURPLE_SHULKER_BOX ||
+            item == Material.RED_SHULKER_BOX ||
+            item == Material.WHITE_SHULKER_BOX ||
+            item == Material.YELLOW_SHULKER_BOX) {
+            return (true);
+        }
+        return (false);
     }
 }
