@@ -8,6 +8,7 @@ import java.util.Map;
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -92,8 +93,12 @@ public class EnchantmentManager {
         List<Enchantment> validEnchantments = new ArrayList<>();
 
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
-            if (enchantment.getKey().canEnchantItem(item) == true && enchantment.getValue() > 0)
-                validEnchantments.add(enchantment.getKey());
+            if (enchantment.getValue() > 0) {
+                if (item.getType() != Material.BOOK)
+                   validEnchantments.add(enchantment.getKey());
+                else if (enchantment.getKey().canEnchantItem(item))
+                    validEnchantments.add(enchantment.getKey());
+            }
         }
         return (validEnchantments);
     }

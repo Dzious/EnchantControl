@@ -2,6 +2,7 @@ package com.dzious.bukkit.enchantcontrol.listener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
@@ -9,6 +10,7 @@ import com.dzious.bukkit.enchantcontrol.EnchantControl;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.VillagerAcquireTradeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,7 +27,7 @@ public class VillagerTradeListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = false)
     public void onVillagerAcquireTrade(VillagerAcquireTradeEvent e)
     {
         ItemStack item = e.getRecipe().getResult();
@@ -33,8 +35,8 @@ public class VillagerTradeListener implements Listener {
             (item.getItemMeta().getEnchants().isEmpty() &&
             (!(item.getItemMeta() instanceof EnchantmentStorageMeta) ||
             ((EnchantmentStorageMeta)(item.getItemMeta())).getStoredEnchants().isEmpty()))) {
-            plugin.getLogManager().logDebugConsole("Trade item is not enchanted.");
-            return;
+                plugin.getLogManager().logDebugConsole("Trade item is not enchanted.");
+                return;
         }
 
         plugin.getLogManager().logDebugConsole("Trade item : " + e.getRecipe().getResult());
@@ -78,9 +80,12 @@ public class VillagerTradeListener implements Listener {
         plugin.getLogManager().logDebugConsole("Enchantments (End) : " + finalEnchantments.toString());
 
         if (finalEnchantments.isEmpty() && item.getType() == Material.ENCHANTED_BOOK) {
-            e.setCancelled(true);
-            plugin.getServer().getPluginManager().callEvent(new VillagerAcquireTradeEvent(e.getEntity(), 
-                new MerchantRecipe(new ItemStack(Material.BOOK), 0, 12, true,1, (float)(0.05))));
+            MerchantRecipe recipe = new MerchantRecipe(new ItemStack(Material.BOOK), 12, 12, true, 1, (float)0.05);
+            List<ItemStack> ingredients = new ArrayList<>();
+            ingredients.add(new ItemStack(Material.EMERALD, 4));
+            ingredients.add(new ItemStack(Material.AIR));
+            recipe.setIngredients(ingredients);
+            e.setRecipe(recipe);
         } else {
             for (Map.Entry<Enchantment, Integer> enchantment : finalEnchantments.entrySet()) {
                 plugin.getLogManager().logDebugConsole("Enchantment (Loop) : " + finalEnchantments.toString());
@@ -90,7 +95,10 @@ public class VillagerTradeListener implements Listener {
                     ((EnchantmentStorageMeta)meta).addStoredEnchant(enchantment.getKey(), enchantment.getValue(), true);
                 }
             }
-            e.getRecipe().getResult().setItemMeta(meta);
+            item.setItemMeta(meta);
+            MerchantRecipe recipe = new MerchantRecipe(item , e.getRecipe().getUses(), e.getRecipe().getMaxUses(),  e.getRecipe().hasExperienceReward(), e.getRecipe().getVillagerExperience(), e.getRecipe().getPriceMultiplier());
+            recipe.setIngredients(e.getRecipe().getIngredients());
+            e.setRecipe(recipe);
             if (!item.getItemMeta().getEnchants().isEmpty()) {
                 plugin.getLogManager().logDebugConsole("Enchantments (Meta) : " + e.getRecipe().getResult().getItemMeta().getEnchants().toString());
             } else {
@@ -98,47 +106,4 @@ public class VillagerTradeListener implements Listener {
             }
         }
     }
-        
-        // if (e.getRecipe().getResult().getEnchantments().isEmpty() &&
-        // (e.getRecipe().getResult().getItemMeta() == null |
-        // !(e.getRecipe().getResult().getItemMeta() instanceof EnchantmentStorageMeta) ||
-        // !((EnchantmentStorageMeta)(e.getRecipe().getResult().getItemMeta())).hasStoredEnchants()))
-        // return;
-
-    //     if (e.getRecipe().getResult().getEnchantments().isEmpty() == false) {
-    //         for (Map.Entry<Enchantment, Integer> enchantment : e.getRecipe().getResult().getEnchantments().entrySet()) {
-    //             if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-    //                 if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0)
-    //                     e.getRecipe().getResult().removeEnchantment(enchantment.getKey());
-    //                 else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-    //                     e.getRecipe().getResult().removeEnchantment(enchantment.getKey());
-    //                     e.getRecipe().getResult().addEnchantment(enchantment.getKey(),plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
-    //                 }
-    //             }
-    //         }
-    //         if (e.getRecipe().getResult().getEnchantments().isEmpty() == true) {
-    //             e.setCancelled(true);
-    //             plugin.getServer().getPluginManager().callEvent(new VillagerAcquireTradeEvent(e.getEntity(), new MerchantRecipe(new ItemStack(Material.AIR), 0, 0,false,0,1)));
-    //         }
-    //     } else {
-    //         for (Map.Entry<Enchantment, Integer> enchantment :((EnchantmentStorageMeta)(e.getRecipe().getResult().getItemMeta())).getStoredEnchants().entrySet()) {
-    //             if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-    //                 if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
-    //                     EnchantmentStorageMeta meta = ((EnchantmentStorageMeta)(e.getRecipe().getResult().getItemMeta()));
-    //                     meta.removeStoredEnchant(enchantment.getKey());
-    //                     e.getRecipe().getResult().setItemMeta(meta);
-    //                 } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
-    //                     EnchantmentStorageMeta meta = ((EnchantmentStorageMeta)(e.getRecipe().getResult().getItemMeta()));
-    //                     meta.removeStoredEnchant(enchantment.getKey());
-    //                     meta.addStoredEnchant(enchantment.getKey(),plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()), true);
-    //                     e.getRecipe().getResult().setItemMeta(meta);
-    //                 }
-    //             }
-    //         }
-    //         if (((EnchantmentStorageMeta)(e.getRecipe().getResult().getItemMeta())).getStoredEnchants().isEmpty() == true) {
-    //             e.setCancelled(true);
-    //             plugin.getServer().getPluginManager().callEvent(new VillagerAcquireTradeEvent(e.getEntity(), new MerchantRecipe(new ItemStack(Material.BOOK), 0, 12, true,1, (float)(0.05))));
-    //         }
-    //     }
-    // }
 }

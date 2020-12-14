@@ -8,6 +8,7 @@ import java.util.Map;
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.event.EventHandler;
@@ -26,8 +27,9 @@ public class EnchantmentTableListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onEnchantmentPreparation(PrepareItemEnchantEvent e)
     {
-        if (!plugin.getEnchantmentManager().hasEnchantActive(e.getItem()))
+        if (e.getItem().getType() != Material.BOOK && !plugin.getEnchantmentManager().hasEnchantActive(e.getItem()))  {
             return;
+        }
 
         plugin.getLogManager().logDebugConsole("Generating offers : ");
 
@@ -49,18 +51,24 @@ public class EnchantmentTableListener implements Listener {
 
                 Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), offersList);
 
-                e.getOffers()[i].setEnchantment(newEnchantment);
                 if (newEnchantment != null) {
+                    e.getOffers()[i].setEnchantment(newEnchantment);
                     if (e.getOffers()[i].getEnchantmentLevel() > plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment))
                         e.getOffers()[i].setEnchantmentLevel(plugin.getEnchantmentManager().getAffectedEnchantments().get(newEnchantment));
                 } else {
-                    e.getOffers()[i].setEnchantmentLevel(0);
+                    e.getOffers()[i] = null; //.setEnchantmentLevel(0);
                 }
             } else if (plugin.getEnchantmentManager().getAffectedEnchantments().get(e.getOffers()[i].getEnchantment()) < e.getOffers()[i].getEnchantmentLevel()){
                 e.getOffers()[i].setEnchantmentLevel(plugin.getEnchantmentManager().getAffectedEnchantments().get(e.getOffers()[i].getEnchantment()));
             }
         }
-        plugin.getLogManager().logDebugConsole(e.getOffers().toString());
+        for (int i = 0; i < e.getOffers().length; i++) {
+            if (e.getOffers()[i] != null) {
+                plugin.getLogManager().logDebugConsole("Final offer " + i + " is "  + ChatColor.GREEN + e.getOffers()[i].getEnchantment().toString());
+            } else {
+                plugin.getLogManager().logDebugConsole("Final offer " + i + " is " + ChatColor.GREEN + "null");
+            }
+        }
         plugin.getLogManager().logDebugConsole(offersList.toString());
         plugin.getPlayersManager().getPlayer(e.getEnchanter().getUniqueId()).setOffers(e.getOffers(), offersList);
     }
