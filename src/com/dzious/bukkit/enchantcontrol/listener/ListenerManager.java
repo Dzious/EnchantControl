@@ -1,12 +1,11 @@
 package com.dzious.bukkit.enchantcontrol.listener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 import org.bukkit.enchantments.Enchantment;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.lang.Boolean;
 
 public class ListenerManager {
     private final EnchantControl plugin;

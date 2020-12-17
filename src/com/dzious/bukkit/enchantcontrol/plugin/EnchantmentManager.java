@@ -18,7 +18,6 @@ public class EnchantmentManager {
     private  EnchantControl plugin;
     private final Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
 
-
     public EnchantmentManager(EnchantControl plugin) {
         this.plugin = plugin;
         registerEnchantments("minecraft", Enchantment.values());
@@ -94,10 +93,11 @@ public class EnchantmentManager {
 
         for (Map.Entry<Enchantment, Integer> enchantment : enchantments.entrySet()) {
             if (enchantment.getValue() > 0) {
-                if (item.getType() != Material.BOOK)
+                if (item.getType() == Material.BOOK)
                    validEnchantments.add(enchantment.getKey());
-                else if (enchantment.getKey().canEnchantItem(item))
+                else if (enchantment.getKey().canEnchantItem(item)) {
                     validEnchantments.add(enchantment.getKey());
+                }
             }
         }
         return (validEnchantments);
@@ -138,7 +138,7 @@ public class EnchantmentManager {
 
         List<Enchantment> validEnchantmentsList = getValidEnchantments(item);
         List<Enchantment> currentValidEnchantmentsList = new ArrayList<>();
-
+        
         if (currentEnchantments != null) {
             currentValidEnchantmentsList = getValidEnchantments(item, currentEnchantments);
             validEnchantmentsList = getValidEnchantments(validEnchantmentsList, currentEnchantments);

@@ -1,14 +1,16 @@
 package com.dzious.bukkit.enchantcontrol;
 
+import java.util.logging.Logger;
+
 import com.dzious.bukkit.enchantcontrol.command.CommandManager;
 import com.dzious.bukkit.enchantcontrol.listener.ListenerManager;
+import com.dzious.bukkit.enchantcontrol.plugin.EnchantmentManager;
 import com.dzious.bukkit.enchantcontrol.plugin.PlayersManager;
 import com.dzious.bukkit.enchantcontrol.utils.ConfigManager;
-import com.dzious.bukkit.enchantcontrol.plugin.EnchantmentManager;
-import org.bukkit.plugin.java.JavaPlugin;
 import com.dzious.bukkit.enchantcontrol.utils.LogManager;
 
-import java.util.logging.Logger;
+import org.bukkit.NamespacedKey;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class EnchantControl extends JavaPlugin {
 
@@ -19,6 +21,11 @@ public class EnchantControl extends JavaPlugin {
     private EnchantmentManager enchantmentManager;
     private ListenerManager listenerManager;
     private PlayersManager playersManager;
+    private NamespacedKey key;
+
+    public enum TagType {
+        EVENT,
+    };
 
 
     @Override
@@ -31,6 +38,7 @@ public class EnchantControl extends JavaPlugin {
         Logger logger = Logger.getLogger("Minecraft");
         logger.info("Enchant Control starting...");
         INSTANCE = this;
+        key = new NamespacedKey(INSTANCE, "ENCHANT_CONTROL");
         configManager = new ConfigManager(INSTANCE);
         logManager = new LogManager(INSTANCE, logger, configManager);
         enchantmentManager = new EnchantmentManager(INSTANCE);
@@ -63,8 +71,16 @@ public class EnchantControl extends JavaPlugin {
         return (configManager);
     }
 
-    public EnchantmentManager getEnchantmentManager() {return (enchantmentManager); }
+    public EnchantmentManager getEnchantmentManager() {
+        return (enchantmentManager);
+    }
 
-    public PlayersManager getPlayersManager() {return (playersManager);}
-// TODO may have to reset item (e.setResult(ItemStack))
+    public PlayersManager getPlayersManager() {
+        return (playersManager);
+    }
+
+    public NamespacedKey getNamespacedKey() {
+        return (key);
+    }
+
 }

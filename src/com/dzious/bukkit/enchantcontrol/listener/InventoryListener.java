@@ -14,6 +14,8 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -73,6 +75,11 @@ public class InventoryListener implements Listener {
                     plugin.getLogManager().logDebugConsole("Removed : " + ChatColor.GREEN + enchantment.getKey().getKey());
                     continue;
                 } else if (enchantment.getValue() > plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey())) {
+                    PersistentDataContainer container = items[i].getItemMeta().getPersistentDataContainer();
+                    if (container.has(plugin.getNamespacedKey(), PersistentDataType.STRING) && container.get(plugin.getNamespacedKey(), PersistentDataType.STRING).equalsIgnoreCase("event")) {
+                        plugin.getLogManager().logDebugConsole("Skipped : " + ChatColor.GREEN + enchantment.getKey().getKey() + ChatColor.WHITE + ".");
+                        continue;
+                    }
                     plugin.getLogManager().logDebugConsole("Replaced : " + ChatColor.GREEN + enchantment.getKey().getKey() + ChatColor.WHITE + ". Level was : " + ChatColor.GREEN + enchantment.getValue() + ChatColor.WHITE + " and is now : " + ChatColor.GREEN);
                     finalEnchantments.put(enchantment.getKey(), plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()));
                 } else {

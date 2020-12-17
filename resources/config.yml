@@ -25,6 +25,8 @@ mending_repair: true
 # Enable or Disable the ability to go over minecraft vanilla enchantments levels
 bypass_levels: false
 
+ignore_conflict: false
+
 # Enchantment that have to be controlled. 
 # Enchantment that aren't there will be kept on their default values
 # enchantments.<sourceName>.<enchantmentName>: <maxLevel>
