@@ -25,6 +25,7 @@ mending_repair: true
 # Enable or Disable the ability to go over minecraft vanilla enchantments levels
 bypass_levels: false
 
+# Enable or Disable the ability to have enchantments that have would be impossible to have together
 ignore_conflict: false
 
 # Enchantment that have to be controlled. 

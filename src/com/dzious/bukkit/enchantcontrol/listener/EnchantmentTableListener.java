@@ -69,7 +69,10 @@ public class EnchantmentTableListener implements Listener {
                 plugin.getLogManager().logDebugConsole("Final offer " + i + " is " + ChatColor.GREEN + "null");
             }
         }
-        plugin.getLogManager().logDebugConsole(offersList.toString());
+        plugin.getLogManager().logDebugConsole("OffersList : " + offersList.toString());
+        for (int i = 0; i < e.getOffers().length; i++) {
+            plugin.getLogManager().logDebugConsole("Offer[" + i + "] is : " + e.getOffers()[i]);
+        }
         plugin.getPlayersManager().getPlayer(e.getEnchanter().getUniqueId()).setOffers(e.getOffers(), offersList);
     }
 
