@@ -7,9 +7,14 @@ import com.dzious.bukkit.enchantcontrol.EnchantControl;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.inventory.AnvilInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -31,6 +36,29 @@ public class AnvilListener implements Listener {
             ignoreConflict = plugin.getConfigManager().getBooleanFromPath("ignore_conflict");
         plugin.getLogManager().logDebugConsole("bypassMinecraftMaxLevel : " + bypassMinecraftMaxLevel);
         plugin.getLogManager().logDebugConsole("ignoreConflict : " + ignoreConflict);
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = false)
+    public void onGetResult(InventoryClickEvent e) {
+        if (!(e.getClickedInventory() instanceof AnvilInventory) ||	e.getSlot() != 2 || e.isLeftClick() == false || e.getCurrentItem().getType() == Material.AIR) {
+            return;
+        }
+        if (e.isShiftClick() && e.getWhoClicked().getInventory().firstEmpty() == -1) {
+            return;
+        }
+
+        Inventory playerInv = e.getWhoClicked().getInventory();
+
+        if (e.isShiftClick()) {
+            playerInv.setItem(playerInv.firstEmpty(), e.getCurrentItem());
+        } else {
+            e.getWhoClicked().setItemOnCursor(e.getCurrentItem());
+        }
+        // plugin.getLogManager().logDebugConsole("REPLACED!");
+        e.getClickedInventory().clear();
+        e.setResult(Result.DENY);
+        e.setCancelled(true);
+        return;
     }
 
     @EventHandler
