@@ -53,6 +53,8 @@ public class CommandEnchantControl implements CommandExecutor, TabCompleter {
                 plugin.getLogManager().logSevere("Config file does not exists. Reload failed.");
                 e.printStackTrace();
             }
+            sender.sendMessage("[Enchant Control] Enchantments max level reloaded.");
+            sender.sendMessage("[Enchant Control] For others config modifications please restart the serve.");
             return (true);
         } else if (args.length > 0 && args[0].equalsIgnoreCase("event")) {
             if (!(sender instanceof Player)) {

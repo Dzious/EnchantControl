@@ -10,7 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -19,23 +19,36 @@ import org.bukkit.persistence.PersistentDataType;
 
 import net.md_5.bungee.api.ChatColor;
 
-public class InventoryListener implements Listener {
+public class MobsLootListener implements Listener {
     final EnchantControl plugin;
 
-    public InventoryListener(EnchantControl plugin) 
+    public MobsLootListener(EnchantControl plugin) 
     {
         this.plugin = plugin;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
-    void onPlayerOpenInventory(InventoryOpenEvent e)
-    {
-        ItemStack[] items = removeEnchants(e.getView().getTopInventory().getContents());
-        e.getView().getTopInventory().setContents(items);
-        items = removeEnchants(e.getView().getBottomInventory().getContents());
-        e.getView().getBottomInventory().setContents(items);
+    void onEntityDeath(EntityDeathEvent e) {
+        ItemStack[] items = new ItemStack[e.getDrops().size()];
+
+        
+        for (int i = 0; i < e.getDrops().size(); i++) {
+            items[i] = e.getDrops().get(i);
+        }
+        
+        // e.getDrops().toArray(new ItemStack[0]);
+
+        items = removeEnchants(items);
+
+        e.getDrops().clear();            
+        for (ItemStack item : items) {
+            e.getDrops().add(item);
+        }
+
         return;
     }
+
+    
 
     ItemStack[] removeEnchants(ItemStack[] items) 
     {
