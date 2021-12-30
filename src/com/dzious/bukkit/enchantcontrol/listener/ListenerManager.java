@@ -31,6 +31,7 @@ public class ListenerManager {
         plugin.getServer().getPluginManager().registerEvents(new EnchantmentTableListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new FishingListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new LootGenerationListener(plugin), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new MobsLootListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new PlayerEnchantmentListener(plugin), plugin);
         plugin.getServer().getPluginManager().registerEvents(new VillagerTradeListener(plugin), plugin);
 
