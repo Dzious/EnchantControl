@@ -78,6 +78,9 @@ public class EnchantmentTableListener implements Listener {
         Map<Enchantment, EnchantmentOffer> offers = plugin.getPlayersManager().getPlayer(e.getEnchanter().getUniqueId()).getOffers(e.whichButton());
 
         for (Map.Entry<Enchantment, Integer> enchantment : e.getEnchantsToAdd().entrySet()) {
+
+            plugin.getLogManager().logDebugConsole("Enchant to add : " + ChatColor.GREEN + enchantment.toString());
+
             if (offers.containsKey(enchantment.getKey())) {
                 e.getEnchantsToAdd().remove(enchantment.getKey());
                 e.getEnchantsToAdd().put(offers.get(enchantment.getKey()).getEnchantment(), offers.get(enchantment.getKey()).getEnchantmentLevel());
@@ -90,7 +93,14 @@ public class EnchantmentTableListener implements Listener {
             enchantments.add(enchantment.getKey());
         }
 
-        for (Map.Entry<Enchantment, Integer> enchantment : e.getEnchantsToAdd().entrySet()) {
+        plugin.getLogManager().logDebugConsole("Enchantments to add : " + e.getEnchantsToAdd().toString());
+
+        Map<Enchantment, Integer> enchantmentsToAdd = new HashMap<Enchantment, Integer>(e.getEnchantsToAdd());
+
+        for (Map.Entry<Enchantment, Integer> enchantment : enchantmentsToAdd.entrySet()) {
+
+            plugin.getLogManager().logDebugConsole("enchantment" + ChatColor.GREEN + enchantment.toString());
+
             if (plugin.getEnchantmentManager().getAffectedEnchantments().get(enchantment.getKey()) <= 0) {
                 Enchantment newEnchantment = plugin.getEnchantmentManager().rerollEnchantment(e.getItem(), enchantments);
 
